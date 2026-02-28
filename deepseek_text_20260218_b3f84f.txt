@@ -1,0 +1,8 @@
+easy-itel/
+├── index.html          # Página principal
+├── style.css          # Estilos CSS
+├── script.js          # Funcionalidades JavaScript
+├── README.md          # Documentação
+└── assets/            # Recursos
+    ├── images/        # Imagens do site
+    └── pdfs/          # PDFs para download
