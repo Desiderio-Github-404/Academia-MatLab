@@ -118,7 +118,7 @@ function initDownloadButtons() {
  */
 function initWhatsAppButtons() {
     // Configuração do WhatsApp
-    const WHATSAPP_NUMBER = '5511999999999'; // Substitua pelo seu número com DDD (sem +)
+    const WHATSAPP_NUMBER = '244958794357'; // Substitua pelo seu número com DDD (sem +)
     
     const proButtons = document.querySelectorAll('.btn-whatsapp-pro');
     
