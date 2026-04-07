@@ -3,376 +3,229 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Academia MatLab - Solucionários Técnicos</title>
+    <title>MentorX - Plataforma de Ensino Tecnológico</title>
     <link rel="stylesheet" href="css/style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 </head>
-<body>
-    <!-- Header com navegação -->
-    <header class="header">
-        <nav class="navbar">
-            <div class="logo">
-                <a href="#home" class="logo"><h1><i class="fas fa-pencil"></i> Academia MatLab</h1></a>
-            </div>
-            <ul class="nav-links">
-                <li><a href="#home">Início</a></li>
-                <li><a href="#products">Solucionários</a></li>
-                <li><a href="#benefits">Benefícios</a></li>
-                <li><a href="#about">Sobre</a></li>
-                <li><a href="#contact">Contato</a></li>
-            </ul>
-            <div class="hamburger">
-                <span></span>
-                <span></span>
-                <span></span>
-            </div>
-        </nav>
-    </header>
+<body class="dark-mode">
 
-    <main>
-        <!-- Banner Principal / Hero Section -->
-        <section id="home" class="hero">
-            <div class="hero-content">
-                <h1>Prepare-se para as provas do ITEL</h1>
-                <p>Solucionários completos com resolução passo a passo para você arrasar nas provas</p>
-                <div class="hero-buttons">
-                    <a href="#free-section" class="btn btn-free">Baixar Versão Gratuita</a>
-                    <a href="#products" class="btn btn-pro">Obter Versão PRO</a>
-                </div>
-            </div>
-            <div class="hero-overlay"></div>
-        </section>
+<canvas id="stars"></canvas>
 
-        <!-- Seção de Benefícios -->
-        <section id="benefits" class="benefits">
-            <h2 class="section-title">Por que escolher nossos solucionários?</h2>
-            <div class="benefits-grid">
-                <div class="benefit-card">
-                    <i class="fas fa-check-circle"></i>
-                    <h3>Resolução passo a passo</h3>
-                    <p>Entenda cada etapa da resolução dos exercícios mais complexos</p>
-                </div>
-                <div class="benefit-card">
-                    <i class="fas fa-book-open"></i>
-                    <h3>Explicação teórica detalhada</h3>
-                    <p>Conceitos fundamentais explicados de forma clara e objetiva</p>
-                </div>
-                <div class="benefit-card">
-                    <i class="fas fa-trophy"></i>
-                    <h3>Técnicas para provas</h3>
-                    <p>Estratégias e macetes para resolver questões rapidamente</p>
-                </div>
-                <div class="benefit-card">
-                    <i class="fas fa-exclamation-triangle"></i>
-                    <h3>Erros comuns explicados</h3>
-                    <p>Aprenda com os erros mais frequentes e evite perdê-los</p>
-                </div>
-            </div>
-        </section>
+<!-- Botão de alternância de tema -->
+<button id="darkModeToggle">🌙</button>
 
-        <!-- Seção de Confiança -->
-        <section id="about" class="trust-section">
-            <h2 class="section-title">Por que confiar neste material?</h2>
-            <div class="trust-content">
-                <div class="author-bio">
-                    <div class="author-image">
-                        <i class="fas fa-user-graduate"></i>
-                    </div>
-                    <div class="author-info">
-                        <h3>Prof. Deziderio Bernardo</h3>
-                        <p>Técnico Eletrônico formado pelo ITEL, com 5 anos de experiência em ensino técnico. Criativo em metodologias de aprendizado rápido e resolução de problemas complexos. Criador do método Easy ITEL que já ajudou mais de 5.000 alunos a passarem em provas difíceis.</p>
-                    </div>
-                </div>
-                <div class="trust-stats">
-                    <div class="stat">
-                        <span class="stat-number">5000+</span>
-                        <span class="stat-label">Alunos aprovados</span>
-                    </div>
-                    <div class="stat">
-                        <span class="stat-number">50+</span>
-                        <span class="stat-label">Solucionários</span>
-                    </div>
-                    <div class="stat">
-                        <span class="stat-number">98%</span>
-                        <span class="stat-label">Aprovação</span>
-                    </div>
-                </div>
-            </div>
-        </section>
+<!-- Header com navegação -->
+<header class="header">
+  <nav class="navbar">
+    <div class="logo">
+      <a href="#home"><img src="img/logo.png" alt="MentorX Logo" style="height: 160px; margin-right: 10px;"></a>
+    </div>
+    <ul class="nav-links">
+      <li><a href="#academy">MentorX Academy</a></li>
+      <li><a href="#community">MentorX Community</a></li>
+      <li><a href="#ai">MentorX AI</a></li>
+      <li><a href="#contact">Contato</a></li>
+    </ul>
+    <div class="hamburger">
+      <span></span>
+      <span></span>
+      <span></span>
+    </div>
+  </nav>
+</header>
 
-        <!-- Tabela Comparativa FREE vs PRO -->
-        <section class="comparison-section">
-            <h2 class="section-title">FREE vs PRO</h2>
-            <div class="comparison-table">
-                <div class="comparison-header">
-                    <div class="comparison-col">Recursos</div>
-                    <div class="comparison-col">FREE</div>
-                    <div class="comparison-col">PRO</div>
-                </div>
-                <div class="comparison-row">
-                    <div class="comparison-col">Resolução passo a passo</div>
-                    <div class="comparison-col"><i class="fas fa-check"></i></div>
-                    <div class="comparison-col"><i class="fas fa-check"></i></div>
-                </div>
-                <div class="comparison-row">
-                    <div class="comparison-col">Explicação teórica</div>
-                    <div class="comparison-col"><i class="fas fa-times"></i></div>
-                    <div class="comparison-col"><i class="fas fa-check"></i></div>
-                </div>
-                <div class="comparison-row">
-                    <div class="comparison-col">Técnicas para provas</div>
-                    <div class="comparison-col"><i class="fas fa-times"></i></div>
-                    <div class="comparison-col"><i class="fas fa-check"></i></div>
-                </div>
-                <div class="comparison-row">
-                    <div class="comparison-col">Erros comuns explicados</div>
-                    <div class="comparison-col"><i class="fas fa-times"></i></div>
-                    <div class="comparison-col"><i class="fas fa-check"></i></div>
-                </div>
-                <div class="comparison-row">
-                    <div class="comparison-col">Suporte via WhatsApp</div>
-                    <div class="comparison-col"><i class="fas fa-times"></i></div>
-                    <div class="comparison-col"><i class="fas fa-check"></i></div>
-                </div>
-                <div class="comparison-row">
-                    <div class="comparison-col">Exercícios extras</div>
-                    <div class="comparison-col"><i class="fas fa-times"></i></div>
-                    <div class="comparison-col"><i class="fas fa-check"></i></div>
-                </div>
-            </div>
-        </section>
+<main>
+  <!-- Hero Section -->
+  <section id="home" class="hero">
+    <div class="hero-content">
+      <h1>Bem-vindo ao MentorX</h1>
+      <p>A plataforma completa para sua jornada de aprendizado em ciência e tecnologia</p>
+      <div class="hero-buttons">
+        <a href="#academy" class="btn btn-primary">Explorar MentorX</a>
+        <a href="#contact" class="btn btn-secondary">Saiba Mais</a>
+      </div>
+    </div>
+    <img src="img/imgHero.png" alt="Hero Image" class="hero-image">
+  </section>
 
-        <!-- Seção de Produtos -->
-        <section id="products" class="products">
-            <h2 class="section-title">Nossos Solucionários</h2>
-            <div class="products-grid">
-                <!-- Card Matemática -->
-                <div class="product-card">
-                    <div class="product-badge-pro">PRO</div>
-                    <i class="fas fa-calculator product-icon"></i>
-                    <h3>Matemática</h3>
-                    <p class="product-description">Álgebra, Geometria, Trigonometria e Cálculo</p>
-                    <div class="product-buttons">
-                        <button class="btn-download-free" data-subject="Matemática">Download FREE</button>
-                        <button class="btn-whatsapp-pro" data-subject="Matemática">Solicitar PRO</button>
-                    </div>
-                </div>
+  <!-- MentorX Academy -->
+  <section id="academy" class="section">
+    <h2 class="section-title">MentorX Academy</h2>
+    <div class="section-left">
+      <p class="section-description">Espaço dedicado a vídeos e cursos interativos de alta qualidade. Aqui você encontrará uma vasta biblioteca de conteúdos educacionais projetados para acelerar seu aprendizado em ciência e tecnologia, com tutoriais passo a passo, exercícios práticos e suporte personalizado através de nossa plataforma MentorX.</p>
+      <div class="section-buttons">
+        <a href="MentorX_Academy.html" class="btn btn-primary">Explorar cursos</a>
+      </div>
+    </div>
+    <div class="content-grid">
+      <!-- Placeholder para cursos -->
+      <div class="content-card">
+        <img src="img/programação.jpeg" alt="Curso de Programação">
+        <h3>Curso de Programação</h3>
+        <p>Conteúdo será adicionado em breve</p>
+      </div>
+      <div class="content-card">
+        <img src="img/matemática.jpeg" alt="Curso de Matemática">
+        <h3>Curso de Matemática</h3>
+        <p>Conteúdo será adicionado em breve</p>
+      </div>
+      <div class="content-card">
+        <img src="img/física.jpeg" alt="Curso de Física">
+        <h3>Curso de Física</h3>
+        <p>Conteúdo será adicionado em breve</p>
+      </div>
+    </div>
+  </section>
 
-                <!-- Card Física -->
-                <div class="product-card">
-                    <div class="product-badge-pro">PRO</div>
-                    <i class="fas fa-flask product-icon"></i>
-                    <h3>Física</h3>
-                    <p class="product-description">Mecânica, Termologia, Óptica e Eletromagnetismo</p>
-                    <div class="product-buttons">
-                        <button class="btn-download-free" data-subject="Física">Download FREE</button>
-                        <button class="btn-whatsapp-pro" data-subject="Física">Solicitar PRO</button>
-                    </div>
-                </div>
+  <!-- MentorX Community -->
+  <section id="community" class="section">
+    <h2 class="section-title">MentorX Community</h2>
+    <p class="section-description">Conecte-se com estudantes e professores de todo o mundo. Compartilhe conhecimento, faça perguntas em nosso fórum ativo, participe de grupos de estudo colaborativos e encontre respostas para suas dúvidas mais complexas em um ambiente de aprendizado comunitário e interativo.</p>
+    <div class="content-grid">
+      <!-- Placeholder para posts da comunidade -->
+      <div class="content-card">
+        <img src="img/forum.jpg" alt="Fórum de Discussões">
+        <h3>Fórum de Discussões</h3>
+        <p>Conteúdo será adicionado em breve</p>
+      </div>
+      <div class="content-card">
+        <img src="img/study-groups.jpg" alt="Grupos de Estudo">
+        <h3>Grupos de Estudo</h3>
+        <p>Conteúdo será adicionado em breve</p>
+      </div>
+      <div class="content-card">
+        <img src="img/qa.jpg" alt="Perguntas e Respostas">
+        <h3>Perguntas e Respostas</h3>
+        <p>Conteúdo será adicionado em breve</p>
+      </div>
+    </div>
+  </section>
 
-		<!-- Card Química -->
-                <div class="product-card">
-                    <div class="product-badge-pro">PRO</div>
-                    <i class="fas fa-flask product-icon"></i>
-                    <h3>Química</h3>
-                    <p class="product-description">Equilíbrio Ácido-base, Estequiometria, Reações Químicas</p>
-                    <div class="product-buttons">
-                        <button class="btn-download-free" data-subject="Química">Download FREE</button>
-                        <button class="btn-whatsapp-pro" data-subject="Química">Solicitar PRO</button>
-                    </div>
-                </div>
+  <!-- MentorX AI -->
+  <section id="ai" class="section">
+    <h2 class="section-title">MentorX AI</h2>
+    <p class="section-description">Inteligência artificial especializada em educação para potencializar seu aprendizado. Nossa IA corrige provas automaticamente, gera questões personalizadas com base no seu nível, responde dúvidas instantaneamente e adapta roteiros de estudo para maximizar sua eficiência e retenção de conhecimento.</p>
+    <div class="content-grid">
+      <!-- Placeholder para ferramentas de IA -->
+      <div class="content-card">
+        <img src="img/correction.jpg" alt="Correção de Provas">
+        <h3>Correção de Provas</h3>
+        <p>Conteúdo será adicionado em breve</p>
+      </div>
+      <div class="content-card">
+        <img src="img/questions.jpg" alt="Geração de Questões">
+        <h3>Geração de Questões</h3>
+        <p>Conteúdo será adicionado em breve</p>
+      </div>
+      <div class="content-card">
+        <img src="img/assistant.jpg" alt="Assistente de Estudos">
+        <h3>Assistente de Estudos</h3>
+        <p>Conteúdo será adicionado em breve</p>
+      </div>
+    </div>
+  </section>
 
-                <!-- Card Eletrônica -->
-                <div class="product-card">
-                    <div class="product-badge-pro">PRO</div>
-                    <i class="fas fa-bolt product-icon"></i>
-                    <h3>Eletrónica/Eletrotecnia</h3>
-                    <p class="product-description">Circuitos, Componentes, Amplificadores e Projetos</p>
-                    <div class="product-buttons">
-                        <button class="btn-download-free" data-subject="Eletrónica">Download FREE</button>
-                        <button class="btn-whatsapp-pro" data-subject="Eletrónica">Solicitar PRO</button>
-                    </div>
-                </div>
+  <!-- MentorX Plan -->
+  <section id="plan" class="section">
+    <h2 class="section-title">MentorX Plan</h2>
+    <p class="section-description">Planejamento personalizado 'zero a hero' em ciência e tecnologia com o poder da IA. Nossa plataforma cria roteiros de estudo adaptados ao seu perfil, acompanha seu progresso em tempo real, define metas alcançáveis e celebra suas conquistas para manter a motivação alta durante toda a jornada.</p>
+    <div class="content-grid">
+      <!-- Placeholder para planos de estudo -->
+      <div class="content-card">
+        <img src="img/roadmap.jpg" alt="Roteiro Personalizado">
+        <h3>Roteiro Personalizado</h3>
+        <p>Conteúdo será adicionado em breve</p>
+      </div>
+      <div class="content-card">
+        <img src="img/progress.jpg" alt="Acompanhamento de Progresso">
+        <h3>Acompanhamento de Progresso</h3>
+        <p>Conteúdo será adicionado em breve</p>
+      </div>
+      <div class="content-card">
+        <img src="img/achievements.jpg" alt="Metas e Conquistas">
+        <h3>Metas e Conquistas</h3>
+        <p>Conteúdo será adicionado em breve</p>
+      </div>
+    </div>
+  </section>
 
-                <!-- Card Sistemas Digitais-->
-                <div class="product-card">
-                    <div class="product-badge-pro">PRO</div>
-                    <i class="fas fa-microchip product-icon"></i>
-                    <h3>Sistemas Digitais</h3>
-                    <p class="product-description">Lógica Booleana, Circuitos Lógicos, Microcontroladores</p>
-                    <div class="product-buttons">
-                        <button class="btn-download-free" data-subject="SD">Download FREE</button>
-                        <button class="btn-whatsapp-pro" data-subject="SD">Solicitar PRO</button>
-                    </div>
-                </div>
+  <!-- MentorX Repo -->
+  <section id="repo" class="section">
+    <h2 class="section-title">MentorX Repo</h2>
+    <p class="section-description">Repositório completo e organizado de materiais de estudo em ciência e tecnologia. Acesse livros técnicos atualizados, apostilas detalhadas, PDFs de referência e materiais extras categorizados por disciplina, tudo disponível para download e consulta offline sempre que precisar.</p>
+    <div class="content-grid">
+      <!-- Placeholder para materiais -->
+      <div class="content-card">
+        <img src="img/books.jpg" alt="Livros Técnicos">
+        <h3>Livros Técnicos</h3>
+        <p>Conteúdo será adicionado em breve</p>
+      </div>
+      <div class="content-card">
+        <img src="img/pdfs.jpg" alt="Apostilas e PDFs">
+        <h3>Apostilas e PDFs</h3>
+        <p>Conteúdo será adicionado em breve</p>
+      </div>
+      <div class="content-card">
+        <img src="img/extras.jpg" alt="Materiais Extras">
+        <h3>Materiais Extras</h3>
+        <p>Conteúdo será adicionado em breve</p>
+      </div>
+    </div>
+  </section>
 
-		<!-- Card Práticas Oficinais-->
-                <div class="product-card">
-                    <div class="product-badge-pro">PRO</div>
-                    <i class="fas fa-robot product-icon"></i>
-                    <h3>Práticas Oficinais (P.O)</h3>
-                    <p class="product-description">Comunicação serial, Circuitos Lógicos, Microcontroladores Arduino,Raspberry Pi</p>
-                    <div class="product-buttons">
-                        <button class="btn-download-free" data-subject="PO">Download FREE</button>
-                        <button class="btn-whatsapp-pro" data-subject="PO">Solicitar PRO</button>
-                    </div>
-                </div>
+  <!-- MentorX Reels -->
+  <section id="reels" class="section">
+    <h2 class="section-title">MentorX Reels</h2>
+    <p class="section-description">Vídeos curtos e dinâmicos para aprendizado rápido e eficiente. Assista a dicas rápidas sobre conceitos complexos, comentários especializados sobre temas técnicos atuais, e conteúdos compartilhados pela comunidade para enriquecer seu conhecimento de forma divertida e acessível.</p>
+    <div class="content-grid">
+      <!-- Placeholder para reels -->
+      <div class="content-card">
+        <img src="img/tips.jpg" alt="Dicas Rápidas">
+        <h3>Dicas Rápidas</h3>
+        <p>Conteúdo será adicionado em breve</p>
+      </div>
+      <div class="content-card">
+        <img src="img/reactions.jpg" alt="Comentários e Reações">
+        <h3>Comentários e Reações</h3>
+        <p>Conteúdo será adicionado em breve</p>
+      </div>
+      <div class="content-card">
+        <img src="img/share.jpg" alt="Compartilhar Conhecimento">
+        <h3>Compartilhar Conhecimento</h3>
+        <p>Conteúdo será adicionado em breve</p>
+      </div>
+    </div>
+  </section>
 
-		<!-- Card TT-->
-                <div class="product-card">
-                    <div class="product-badge-pro">PRO</div>
-                    <i class="fas fa-phone product-icon"></i>
-                    <h3>T.T</h3>
-                    <p class="product-description">Amostragem do sinal, Telefonia, Redes Telefónicas 4G e 5G</p>
-                    <div class="product-buttons">
-                        <button class="btn-download-free" data-subject="TT">Download FREE</button>
-                        <button class="btn-whatsapp-pro" data-subject="TT">Solicitar PRO</button>
-                    </div>
-                </div>
+</main>
 
-		<!-- Card Telecomunicações-->
-                <div class="product-card">
-                    <div class="product-badge-pro">PRO</div>
-                    <i class="fas fa-wifi product-icon"></i>
-                    <h3>Telecomunicações</h3>
-                    <p class="product-description">Radio-Comunicação, Circuitos Ressonantes, Multiplexagem ,Modulação</p>
-                    <div class="product-buttons">
-                        <button class="btn-download-free" data-subject="Telecomunicações">Download FREE</button>
-                        <button class="btn-whatsapp-pro" data-subject="Telecomunicações">Solicitar PRO</button>
-                    </div>
-                </div>
+<!-- Footer -->
+<footer id="contact" class="footer">
+  <div class="footer-content">
+    <div class="footer-section">
+      <h3><i class="fas fa-graduation-cap"></i> MentorX</h3>
+      <p>Plataforma completa de ensino tecnológico</p>
+    </div>
+    <div class="footer-section">
+      <h3>Contato</h3>
+      <p><i class="fas fa-envelope"></i> contact@mentorx.com</p>
+      <p><i class="fab fa-whatsapp"></i> <a href="https://wa.me/244958794357">(+244) 958794357</a></p>
+    </div>
+    <div class="footer-section">
+      <h3>Redes Sociais</h3>
+      <div class="social-links">
+        <a href="#"><i class="fab fa-instagram"></i></a>
+        <a href="#"><i class="fab fa-facebook"></i></a>
+        <a href="#"><i class="fab fa-youtube"></i></a>
+        <a href="#"><i class="fab fa-twitter"></i></a>
+      </div>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <p>&copy; 2026 MentorX. Todos os direitos reservados.</p>
+  </div>
+</footer>
 
-		<!-- Card SEAC-->
-                <div class="product-card">
-                    <div class="product-badge-pro">PRO</div>
-                    <i class="fas fa-microchip product-icon"></i>
-                    <h3>S.E.A.C</h3>
-                    <p class="product-description">Arquitetura de Computadores, Programação Assembly, Von Neummann</p>
-                    <div class="product-buttons">
-                        <button class="btn-download-free" data-subject="SEAC">Download FREE</button>
-                        <button class="btn-whatsapp-pro" data-subject="SEAC">Solicitar PRO</button>
-                    </div>
-                </div>
-
-		<!-- Card TLP-->
-                <div class="product-card">
-                    <div class="product-badge-pro">PRO</div>
-                    <i class="fas fa-laptop product-icon"></i>
-                    <h3>T.L.P/Informática</h3>
-                    <p class="product-description">Programação, Front-End development, Banco de Dados</p>
-                    <div class="product-buttons">
-                        <button class="btn-download-free" data-subject="TLP">Download FREE</button>
-                        <button class="btn-whatsapp-pro" data-subject="TLP">Solicitar PRO</button>
-                    </div>
-                </div>
-
-		<!-- Card TIC-->
-                <div class="product-card">
-                    <div class="product-badge-pro">PRO</div>
-                    <i class="fas fa-desktop product-icon"></i>
-                    <h3>T.I.C</h3>
-                    <p class="product-description">Informática na Óptica do utilizador, Atalhos de teclado, Sistemas Operacionais</p>
-                    <div class="product-buttons">
-                        <button class="btn-download-free" data-subject="TIC">Download FREE</button>
-                        <button class="btn-whatsapp-pro" data-subject="TIC">Solicitar PRO</button>
-                    </div>
-                </div>
-
-		<!-- Card DT-->
-                <div class="product-card">
-                    <div class="product-badge-pro">PRO</div>
-                    <i class="fas fa-pencil product-icon"></i>
-                    <h3>Desenho Técnico (D.T)</h3>
-                    <p class="product-description">Projeções e Perspectivas, Cortes e Secções, AutoCAD</p>
-                    <div class="product-buttons">
-                        <button class="btn-download-free" data-subject="DT">Download FREE</button>
-                        <button class="btn-whatsapp-pro" data-subject="DT">Solicitar PRO</button>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- Seção de Depoimentos -->
-        <section class="testimonials">
-            <h2 class="section-title">O que nossos alunos dizem</h2>
-            <div class="testimonials-grid">
-                <div class="testimonial-card">
-                    <div class="testimonial-content">
-                        <i class="fas fa-quote-left"></i>
-                        <p>Os solucionários do Easy ITEL salvaram minha vida! Passei em Eletrônica com nota máxima.</p>
-                    </div>
-                    <div class="testimonial-author">
-                        <strong>João Silva</strong>
-                        <span>Aluno do 3º ano (12ª classe)</span>
-                    </div>
-                </div>
-                <div class="testimonial-card">
-                    <div class="testimonial-content">
-                        <i class="fas fa-quote-left"></i>
-                        <p>A versão PRO vale cada centavo. As explicações são tão claras que parece que o professor está do seu lado.</p>
-                    </div>
-                    <div class="testimonial-author">
-                        <strong>Maria Oliveira</strong>
-                        <span>Ex-aluna do ITEL</span>
-                    </div>
-                </div>
-                <div class="testimonial-card">
-                    <div class="testimonial-content">
-                        <i class="fas fa-quote-left"></i>
-                        <p>Finalmente um material que explica os erros comuns. Isso fez toda diferença na minha preparação.</p>
-                    </div>
-                    <div class="testimonial-author">
-                        <strong>Pedro Santos</strong>
-                        <span>Universitário</span>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- Área para futura integração com pagamento -->
-        <section class="payment-future">
-            <div class="payment-future-content">
-                <h3>Em breve: Pagamento online</h3>
-                <p>Estamos implementando um sistema de pagamento integrado para maior facilidade</p>
-                <div class="payment-methods-future">
-                    <i class="fab fa-cc-visa"></i>
-                    <i class="fab fa-cc-mastercard"></i>
-                    <i class="fab fa-cc-amex"></i>
-                    <i class="fab fa-cc-paypal"></i>
-                    <i class="fas fa-barcode"></i>
-                </div>
-            </div>
-        </section>
-    </main>
-
-    <!-- Rodapé com contatos -->
-    <footer id="contact" class="footer">
-        <div class="footer-content">
-            <div class="footer-section">
-                <h3><i class="fas fa-pencil"></i> Academia MatLab</h3>
-                <p>Solucionários técnicos de qualidade para alunos do ITEL e cursos técnicos</p>
-            </div>
-            <div class="footer-section">
-                <h3>Contato</h3>
-                <p><i class="fas fa-envelope"></i> desideribernardo6@gmail.com</p>
-                <!-- IMPORTANTE: Substitua o número abaixo pelo seu WhatsApp -->
-                <p><i class="fab fa-whatsapp"></i> <a href="https://wa.me/244958794357?text=Olá%2C%20gostaria%20de%20saber%20mais%20sobre%20os%20solucionários" target="_blank">(+244) 958794357</a></p>
-		<p><i class="fab fa-whatsapp"></i> <a href="https://wa.me/244972744865?text=Olá%2C%20gostaria%20de%20saber%20mais%20sobre%20os%20solucionários" target="_blank">(+244) 972744865</a></p>
-            </div>
-            <div class="footer-section">
-                <h3>Redes Sociais</h3>
-                <div class="social-links">
-                    <a href="#"><i class="fab fa-instagram"></i></a>
-                    <a href="#"><i class="fab fa-facebook"></i></a>
-                    <a href="#"><i class="fab fa-youtube"></i></a>
-                </div>
-            </div>
-        </div>
-        <div class="footer-bottom">
-            <p>&copy; 2026 Academia MatLab. Todos os direitos reservados.</p>
-        </div>
-    </footer>
-
-    <script src="js/script.js"></script>
+<script src="js/script.js"></script>
 </body>
 </html>

@@ -1,6 +1,6 @@
 /**
- * Easy ITEL - Script principal
- * Autor: Easy ITEL
+ * MentorX - Script principal
+ * Autor: MentorX
  * Versão: 1.0
  */
 
@@ -9,9 +9,75 @@ document.addEventListener('DOMContentLoaded', function() {
     initMobileMenu();
     initSmoothScroll();
     initScrollReveal();
-    initDownloadButtons();
-    initWhatsAppButtons();
 });
+
+// Alternar Dark/Light Mode
+const toggleBtn = document.getElementById('darkModeToggle');
+toggleBtn.addEventListener('click', () => {
+    document.body.classList.toggle('dark-mode');
+    toggleBtn.innerHTML = document.body.classList.contains('dark-mode') ? '🌙' : '🌞';
+    // Atualiza cor das estrelas
+    stars.forEach(s => s.color = document.body.classList.contains('dark-mode') ? '#fff' : '#000');
+    // Atualiza logo
+    const logoImg = document.querySelector('.logo img');
+    logoImg.src = document.body.classList.contains('dark-mode') ? 'img/logo.png' : 'img/logowhite.png';
+});
+
+// Fundo animado com estrelas
+const canvas = document.getElementById('stars');
+const ctx = canvas.getContext('2d');
+let stars = [];
+
+function resizeCanvas() {
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+}
+window.addEventListener('resize', resizeCanvas);
+resizeCanvas();
+
+function createStars(count = 200) {
+    stars = [];
+    for(let i=0;i<count;i++){
+        stars.push({
+            x: Math.random()*canvas.width,
+            y: Math.random()*canvas.height,
+            radius: Math.random()*1.5,
+            speed: Math.random()*0.5+0.1,
+            color: '#fff'
+        });
+    }
+}
+
+function animateStars(){
+    ctx.clearRect(0,0,canvas.width,canvas.height);
+    stars.forEach(star => {
+        star.y -= star.speed;
+        if(star.y<0) star.y = canvas.height;
+        ctx.beginPath();
+        ctx.arc(star.x,star.y,star.radius,0,Math.PI*2);
+        ctx.fillStyle = star.color;
+        ctx.fill();
+    });
+    requestAnimationFrame(animateStars);
+}
+
+// Carousel for sections
+const sections = document.querySelectorAll('.section');
+sections.forEach(section => {
+    const cards = section.querySelectorAll('.content-card');
+    if (cards.length > 1) {
+        let current = 0;
+        cards[current].classList.add('active');
+        setInterval(() => {
+            cards[current].classList.remove('active');
+            current = (current + 1) % cards.length;
+            cards[current].classList.add('active');
+        }, 4000); // 4 seconds
+    }
+});
+
+createStars();
+animateStars();
 
 /**
  * Menu mobile - Hamburguer
@@ -19,17 +85,17 @@ document.addEventListener('DOMContentLoaded', function() {
 function initMobileMenu() {
     const hamburger = document.querySelector('.hamburger');
     const navLinks = document.querySelector('.nav-links');
-    
+
     if (hamburger) {
         hamburger.addEventListener('click', () => {
             navLinks.classList.toggle('active');
-            
+
             // Animação do hamburger
             const spans = hamburger.querySelectorAll('span');
             spans.forEach(span => span.classList.toggle('active'));
         });
     }
-    
+
     // Fecha o menu ao clicar em um link
     document.querySelectorAll('.nav-links a').forEach(link => {
         link.addEventListener('click', () => {
@@ -60,8 +126,8 @@ function initSmoothScroll() {
  * Revelar elementos ao rolar a página
  */
 function initScrollReveal() {
-    const elements = document.querySelectorAll('.benefit-card, .product-card, .testimonial-card, .stat');
-    
+    const elements = document.querySelectorAll('.content-card, .section');
+
     const observer = new IntersectionObserver((entries) => {
         entries.forEach(entry => {
             if (entry.isIntersecting) {
@@ -72,86 +138,9 @@ function initScrollReveal() {
         threshold: 0.1,
         rootMargin: '0px 0px -50px 0px'
     });
-    
+
     elements.forEach(element => {
         observer.observe(element);
-    });
-}
-
-/**
- * Botões de download FREE
- * IMPORTANTE: Crie um arquivo PDF de exemplo e coloque na pasta assets/pdfs/
- */
-function initDownloadButtons() {
-    const downloadButtons = document.querySelectorAll('.btn-download-free');
-    
-    downloadButtons.forEach(button => {
-        button.addEventListener('click', function(e) {
-            e.preventDefault();
-            const subject = this.getAttribute('data-subject');
-            
-            // Simula o download de um PDF
-            // IMPORTANTE: Substitua pelo caminho real do seu PDF
-            const pdfPath = `pdfs/${subject}/${subject}.pdf`;
-
-            // Abre o livro em uma nova janela
-            window.open(pdfPath , '_blank');
-
-            // Cria um link temporário para download
-            //const link = document.createElement('a');
-            //link.href = pdfPath;
-
-            link.download = `EasyITEL-${subject}-Sample.pdf`;
-            document.body.appendChild(link);
-            link.click();
-            document.body.removeChild(link);
-
-            // Feedback visual
-            showNotification(`Download do solucionário FREE de ${subject} iniciado!`, 'success');
-        });
-    });
-}
-
-/**
- * Botões WhatsApp PRO
- * IMPORTANTE: Substitua o número abaixo pelo seu número real
- */
-function initWhatsAppButtons() {
-    // Configuração do WhatsApp
-    const WHATSAPP_NUMBER = '244958794357'; // Substitua pelo seu número com DDD (sem +)
-    
-    const proButtons = document.querySelectorAll('.btn-whatsapp-pro');
-    
-    proButtons.forEach(button => {
-        button.addEventListener('click', function(e) {
-            e.preventDefault();
-            const subject = this.getAttribute('data-subject');
-            
-            // Mensagem pré-formatada
-            const message = `Olá, quero adquirir a versão PRO do solucionário de ${subject}`;
-            
-            // Codifica a mensagem para URL
-            const encodedMessage = encodeURIComponent(message);
-            
-            // Cria a URL do WhatsApp
-            const whatsappUrl = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodedMessage}`;
-            
-            // Abre o WhatsApp em uma nova janela
-            window.open(whatsappUrl, '_blank');
-            
-            // Feedback visual
-            showNotification(`Redirecionando para WhatsApp para compra do PRO de ${subject}...`, 'info');
-        });
-    });
-    
-    // Botões de contato no rodapé
-    const contactButtons = document.querySelectorAll('.footer-section a[href*="wa.me"]');
-    contactButtons.forEach(button => {
-        button.addEventListener('click', function(e) {
-            e.preventDefault();
-            const href = this.getAttribute('href');
-            window.open(href, '_blank');
-        });
     });
 }
 
@@ -164,7 +153,7 @@ function showNotification(message, type = 'info') {
     if (existingNotification) {
         existingNotification.remove();
     }
-    
+
     // Cria a notificação
     const notification = document.createElement('div');
     notification.className = `notification notification-${type}`;
@@ -172,7 +161,7 @@ function showNotification(message, type = 'info') {
         <i class="fas ${getIconForType(type)}"></i>
         <span>${message}</span>
     `;
-    
+
     // Adiciona estilos
     notification.style.cssText = `
         position: fixed;
@@ -189,9 +178,9 @@ function showNotification(message, type = 'info') {
         align-items: center;
         gap: 10px;
     `;
-    
+
     document.body.appendChild(notification);
-    
+
     // Remove após 3 segundos
     setTimeout(() => {
         notification.style.animation = 'slideOut 0.3s ease';
@@ -222,6 +211,73 @@ function getColorForType(type) {
 }
 
 /**
+ * Sistema de filtragem de cursos (para MentorX_Academy.html)
+ */
+function initCourseFilters() {
+    const searchInput = document.getElementById('search-input');
+    const filterCategory = document.getElementById('filter-category');
+    const filterDifficulty = document.getElementById('filter-difficulty');
+    const filterDuration = document.getElementById('filter-duration');
+    const filterDate = document.getElementById('filter-date');
+    const coursesGrid = document.getElementById('courses-grid');
+    const courseCards = coursesGrid.querySelectorAll('.course-card');
+
+    function filterCourses() {
+        const searchTerm = searchInput.value.toLowerCase();
+        const category = filterCategory.value;
+        const difficulty = filterDifficulty.value;
+        const duration = filterDuration.value;
+        const dateSort = filterDate.value;
+
+        let filteredCards = Array.from(courseCards);
+
+        // Filtro de texto
+        if (searchTerm) {
+            filteredCards = filteredCards.filter(card => {
+                const title = card.querySelector('h3').textContent.toLowerCase();
+                const desc = card.querySelector('p').textContent.toLowerCase();
+                return title.includes(searchTerm) || desc.includes(searchTerm);
+            });
+        }
+
+        // Filtros
+        if (category) {
+            filteredCards = filteredCards.filter(card => card.dataset.category === category);
+        }
+        if (difficulty) {
+            filteredCards = filteredCards.filter(card => card.dataset.difficulty === difficulty);
+        }
+        if (duration) {
+            filteredCards = filteredCards.filter(card => card.dataset.duration === duration);
+        }
+
+        // Ordenação por data
+        if (dateSort === 'recent') {
+            filteredCards.sort((a, b) => new Date(b.querySelector('.date').textContent) - new Date(a.querySelector('.date').textContent));
+        } else if (dateSort === 'old') {
+            filteredCards.sort((a, b) => new Date(a.querySelector('.date').textContent) - new Date(b.querySelector('.date').textContent));
+        }
+
+        // Ocultar todos
+        courseCards.forEach(card => card.style.display = 'none');
+        // Mostrar filtrados
+        filteredCards.forEach(card => card.style.display = 'block');
+    }
+
+    // Eventos
+    searchInput.addEventListener('input', filterCourses);
+    filterCategory.addEventListener('change', filterCourses);
+    filterDifficulty.addEventListener('change', filterCourses);
+    filterDuration.addEventListener('change', filterCourses);
+    filterDate.addEventListener('change', filterCourses);
+}
+
+// Inicializar filtros se estiver na página de cursos
+if (document.getElementById('courses-grid')) {
+    initCourseFilters();
+}
+
+/**
  * Adiciona estilos de animação para notificações
  */
 const style = document.createElement('style');
@@ -236,7 +292,7 @@ style.textContent = `
             opacity: 1;
         }
     }
-    
+
     @keyframes slideOut {
         from {
             transform: translateX(0);
@@ -247,45 +303,44 @@ style.textContent = `
             opacity: 0;
         }
     }
-    
+
     .hamburger span.active:nth-child(1) {
         transform: rotate(45deg) translate(5px, 5px);
     }
-    
+
     .hamburger span.active:nth-child(2) {
         opacity: 0;
     }
-    
+
     .hamburger span.active:nth-child(3) {
         transform: rotate(-45deg) translate(7px, -6px);
     }
+
+    .revealed {
+        animation: fadeInUp 0.6s ease forwards;
+    }
+
+    @keyframes fadeInUp {
+        from {
+            opacity: 0;
+            transform: translateY(30px);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
 `;
 document.head.appendChild(style);
-
-/**
- * Função para futura integração com pagamento
- * Aqui você pode implementar a integração com Stripe, PayPal, etc.
- */
-function futurePaymentIntegration(amount, product) {
-    console.log(`Preparando pagamento de R$ ${amount} para o produto: ${product}`);
-    showNotification(`Sistema de pagamento online em breve para ${product}!`, 'info');
-    
-    // Exemplo de integração futura:
-    // return fetch('/api/create-payment', {
-    //     method: 'POST',
-    //     headers: { 'Content-Type': 'application/json' },
-    //     body: JSON.stringify({ amount, product })
-    // });
-}
 
 /**
  * Pré-carregamento de imagens (opcional)
  */
 function preloadImages() {
     const images = [
-        'https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80'
+        // Adicione URLs de imagens que serão usadas no futuro
     ];
-    
+
     images.forEach(src => {
         const img = new Image();
         img.src = src;
@@ -293,27 +348,3 @@ function preloadImages() {
 }
 
 preloadImages();
-
-/**
- * Sistema de login futuro (placeholder)
- */
-class AuthSystem {
-    constructor() {
-        this.isLoggedIn = false;
-        this.user = null;
-    }
-    
-    login(email, password) {
-        // Implementar futuramente
-        console.log('Sistema de login será implementado em breve');
-        showNotification('Sistema de login em desenvolvimento', 'info');
-    }
-    
-    logout() {
-        this.isLoggedIn = false;
-        this.user = null;
-    }
-}
-
-// Inicializa sistema de auth
-const auth = new AuthSystem();
