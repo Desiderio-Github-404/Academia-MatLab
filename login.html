@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MentorX - Login/Registro</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body class="dark-mode">
+
+<canvas id="stars"></canvas>
+
+<!-- Botão de alternância de tema -->
+<button id="darkModeToggle">🌙</button>
+
+<!-- Firebase SDK -->
+<script type="module">
+  // Import the functions you need from the SDKs you need
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/12.11.0/firebase-app.js";
+  import { getAnalytics } from "https://www.gstatic.com/firebasejs/12.11.0/firebase-analytics.js";
+  import {
+    getAuth,
+    signInWithEmailAndPassword,
+    createUserWithEmailAndPassword,
+    signInWithPopup,
+    GoogleAuthProvider,
+    signOut,
+    onAuthStateChanged,
+    updateProfile
+  } from "https://www.gstatic.com/firebasejs/12.11.0/firebase-auth.js";
+
+  // Your web app's Firebase configuration
+  const firebaseConfig = {
+    apiKey: "AIzaSyBaPlPSIzBjjlMe46_XqkFfjaAJhQAvBac",
+    authDomain: "mentorx-c28fd.firebaseapp.com",
+    projectId: "mentorx-c28fd",
+    storageBucket: "mentorx-c28fd.firebasestorage.app",
+    messagingSenderId: "440701253556",
+    appId: "1:440701253556:web:d718a8c4405a26a6a364e1",
+    measurementId: "G-0HPK2ZS6BG"
+  };
+
+  // Initialize Firebase
+  const app = initializeApp(firebaseConfig);
+  const analytics = getAnalytics(app);
+
+  // Initialize Firebase Auth
+  const auth = getAuth(app);
+  const googleProvider = new GoogleAuthProvider();
+
+  // Make auth globally available
+  window.firebaseAuth = auth;
+  window.googleProvider = googleProvider;
+  window.signInWithEmailAndPassword = signInWithEmailAndPassword;
+  window.createUserWithEmailAndPassword = createUserWithEmailAndPassword;
+  window.signInWithPopup = signInWithPopup;
+  window.signOut = signOut;
+  window.onAuthStateChanged = onAuthStateChanged;
+  window.updateProfile = updateProfile;
+  window.GoogleAuthProvider = GoogleAuthProvider;
+</script>
+<body class="dark-mode">
+
+<canvas id="stars"></canvas>
+
+<!-- Botão de alternância de tema -->
+<button id="darkModeToggle">🌙</button>
+
+<!-- Header com navegação -->
+<header class="header">
+  <nav class="navbar">
+    <div class="logo">
+      <a href="index.html"><img src="img/logo.png" alt="MentorX Logo" style="height: 160px; margin-right: 10px;"></a>
+    </div>
+    <div class="auth-buttons">
+      <a href="login.html" class="btn btn-login active">👨‍🏫 Professor</a>
+      <a href="login.html" class="btn btn-login">👨‍🎓 Aluno</a>
+    </div>
+    <div class="hamburger">
+      <span></span>
+      <span></span>
+      <span></span>
+    </div>
+  </nav>
+</header>
+
+<main>
+  <!-- Hero Section -->
+  <section class="login-hero">
+    <div class="hero-content">
+      <h1>🚀 Bem-vindo ao MentorX</h1>
+      <p>Entre na sua conta ou cadastre-se para acessar nossa plataforma de ensino</p>
+    </div>
+  </section>
+
+  <!-- Login/Register Section -->
+  <section class="auth-section">
+    <div class="auth-container">
+      <!-- Toggle Buttons -->
+      <div class="auth-toggle">
+        <button id="login-toggle" class="auth-toggle-btn active">Entrar</button>
+        <button id="register-toggle" class="auth-toggle-btn">Registrar</button>
+      </div>
+
+      <!-- Login Form -->
+      <div id="login-form" class="auth-form active">
+        <h2>Entrar na sua conta</h2>
+        <form class="form" id="loginForm">
+          <div class="form-group">
+            <label for="login-email">Email</label>
+            <input type="email" id="login-email" required>
+          </div>
+          <div class="form-group">
+            <label for="login-password">Senha</label>
+            <input type="password" id="login-password" required>
+          </div>
+          <div class="form-options">
+            <label class="checkbox-label">
+              <input type="checkbox" id="remember-me">
+              Lembrar-me
+            </label>
+            <a href="#" class="forgot-password">Esqueceu a senha?</a>
+          </div>
+          <button type="submit" class="btn btn-primary auth-submit-btn">Entrar</button>
+        </form>
+
+        <div class="auth-divider">
+          <span>ou</span>
+        </div>
+
+        <button id="google-login-btn" class="btn btn-google">
+          <i class="fab fa-google"></i> Entrar com Google
+        </button>
+      </div>
+
+      <!-- Register Form -->
+      <div id="register-form" class="auth-form">
+        <h2>Criar nova conta</h2>
+        <form class="form" id="registerForm">
+          <div class="form-row">
+            <div class="form-group">
+              <label for="register-firstname">Nome</label>
+              <input type="text" id="register-firstname" required>
+            </div>
+            <div class="form-group">
+              <label for="register-lastname">Sobrenome</label>
+              <input type="text" id="register-lastname" required>
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="register-email">Email</label>
+            <input type="email" id="register-email" required>
+          </div>
+          <div class="form-group">
+            <label for="register-password">Senha</label>
+            <input type="password" id="register-password" minlength="6" required>
+          </div>
+          <div class="form-group">
+            <label for="register-confirm-password">Confirmar Senha</label>
+            <input type="password" id="register-confirm-password" minlength="6" required>
+          </div>
+          <div class="form-group">
+            <label for="user-type">Tipo de conta</label>
+            <select id="user-type" required>
+              <option value="">Selecione...</option>
+              <option value="professor">👨‍🏫 Professor</option>
+              <option value="aluno">👨‍🎓 Aluno</option>
+            </select>
+          </div>
+          <div class="form-group" id="subject-group" style="display: none;">
+            <label for="subject">Disciplina (Professores)</label>
+            <select id="subject">
+              <option value="">Selecione a disciplina...</option>
+              <option value="matematica">Matemática</option>
+              <option value="fisica">Física</option>
+              <option value="quimica">Química</option>
+              <option value="programacao">Programação</option>
+              <option value="eletronica">Eletrônica</option>
+              <option value="telecomunicacoes">Telecomunicações</option>
+              <option value="outra">Outra</option>
+            </select>
+          </div>
+          <div class="form-group" id="grade-group" style="display: none;">
+            <label for="grade">Ano/Série (Alunos)</label>
+            <select id="grade">
+              <option value="">Selecione o ano...</option>
+              <option value="1ano">1º Ano</option>
+              <option value="2ano">2º Ano</option>
+              <option value="3ano">3º Ano</option>
+              <option value="4ano">4º Ano</option>
+              <option value="5ano">5º Ano</option>
+              <option value="6ano">6º Ano</option>
+              <option value="7ano">7º Ano</option>
+              <option value="8ano">8º Ano</option>
+              <option value="9ano">9º Ano</option>
+              <option value="10ano">10º Ano</option>
+              <option value="11ano">11º Ano</option>
+              <option value="12ano">12º Ano</option>
+              <option value="universitario">Universitário</option>
+            </select>
+          </div>
+          <div class="form-options">
+            <label class="checkbox-label">
+              <input type="checkbox" id="terms" required>
+              Aceito os <a href="#" class="terms-link">termos de uso</a> e <a href="#" class="terms-link">política de privacidade</a>
+            </label>
+          </div>
+          <button type="submit" class="btn btn-primary auth-submit-btn">Criar Conta</button>
+        </form>
+
+        <div class="auth-divider">
+          <span>ou</span>
+        </div>
+
+        <button id="google-register-btn" class="btn btn-google">
+          <i class="fab fa-google"></i> Registrar com Google
+        </button>
+      </div>
+    </div>
+  </section>
+</main>
+
+<!-- Footer -->
+<footer class="footer">
+  <div class="footer-content">
+    <div class="footer-section">
+      <h3><i class="fas fa-graduation-cap"></i> MentorX</h3>
+      <p>Plataforma completa de ensino tecnológico</p>
+    </div>
+    <div class="footer-section">
+      <h3>Contato</h3>
+      <p><i class="fas fa-envelope"></i> contact@mentorx.com</p>
+      <p><i class="fab fa-whatsapp"></i> <a href="https://wa.me/244958794357">(+244) 958794357</a></p>
+    </div>
+    <div class="footer-section">
+      <h3>Redes Sociais</h3>
+      <div class="social-links">
+        <a href="#"><i class="fab fa-instagram"></i></a>
+        <a href="#"><i class="fab fa-facebook"></i></a>
+        <a href="#"><i class="fab fa-youtube"></i></a>
+        <a href="#"><i class="fab fa-twitter"></i></a>
+      </div>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <p>&copy; 2026 MentorX. Todos os direitos reservados.</p>
+  </div>
+</footer>
+
+<script src="js/login.js"></script>
+</body>
+</html>

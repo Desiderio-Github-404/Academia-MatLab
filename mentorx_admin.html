@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MentorX Admin - Gerenciamento de Vídeos</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body class="dark-mode">
+
+<canvas id="stars"></canvas>
+
+<!-- Botão de alternância de tema -->
+<button id="darkModeToggle">🌙</button>
+
+<!-- Header com navegação -->
+<header class="header">
+  <nav class="navbar">
+    <div class="logo">
+      <a href="index.html"><img src="img/logo.png" alt="MentorX Logo" style="height: 160px; margin-right: 10px;"></a>
+    </div>
+    <ul class="nav-links">
+      <li><a href="index.html">Home</a></li>
+      <li><a href="MentorX_Academy.html">Academy</a></li>
+      <li><a href="mentorx_ai.html">AI</a></li>
+      <li><a href="mentorx_community.html">Community</a></li>
+      <li><a href="mentorx_store.html">Store</a></li>
+      <li><a href="mentorx_plan.html">Plan</a></li>
+      <li><a href="mentorx_reels.html">Reels</a></li>
+    </ul>
+    <div class="hamburger">
+      <span></span>
+      <span></span>
+      <span></span>
+    </div>
+  </nav>
+</header>
+
+<main>
+  <!-- Hero Section -->
+  <section class="admin-hero">
+    <div class="hero-content">
+      <h1>🎬 MentorX Admin</h1>
+      <p>Gerencie vídeos e conteúdo da plataforma de forma interativa</p>
+    </div>
+  </section>
+
+  <!-- Painel de Controle -->
+  <section class="admin-panel">
+    <div class="admin-container">
+      <div class="admin-sidebar">
+        <h3><i class="fas fa-cog"></i> Controle</h3>
+        <nav class="admin-nav">
+          <button class="admin-nav-btn active" data-section="videos">
+            <i class="fas fa-video"></i> Vídeos
+          </button>
+          <button class="admin-nav-btn" data-section="upload">
+            <i class="fas fa-upload"></i> Upload
+          </button>
+          <button class="admin-nav-btn" data-section="categories">
+            <i class="fas fa-tags"></i> Categorias
+          </button>
+          <button class="admin-nav-btn" data-section="analytics">
+            <i class="fas fa-chart-bar"></i> Analytics
+          </button>
+        </nav>
+      </div>
+
+      <div class="admin-content">
+        <!-- Seção Vídeos -->
+        <div id="videos-section" class="admin-section active">
+          <div class="section-header">
+            <h2><i class="fas fa-video"></i> Gerenciar Vídeos</h2>
+            <button class="btn btn-primary" id="add-video-btn">
+              <i class="fas fa-plus"></i> Novo Vídeo
+            </button>
+          </div>
+
+          <div class="videos-filters">
+            <div class="search-bar">
+              <input type="text" id="video-search" placeholder="Buscar vídeos...">
+              <button id="video-search-btn"><i class="fas fa-search"></i></button>
+            </div>
+            <select id="video-category-filter">
+              <option value="all">Todas as categorias</option>
+              <option value="matematica">Matemática</option>
+              <option value="fisica">Física</option>
+              <option value="quimica">Química</option>
+              <option value="programacao">Programação</option>
+            </select>
+          </div>
+
+          <div class="videos-grid" id="videos-grid">
+            <!-- Vídeos serão carregados dinamicamente -->
+          </div>
+        </div>
+
+        <!-- Seção Upload -->
+        <div id="upload-section" class="admin-section">
+          <div class="section-header">
+            <h2><i class="fas fa-upload"></i> Upload de Vídeo</h2>
+          </div>
+
+          <div class="upload-container">
+            <div class="upload-area" id="upload-area">
+              <i class="fas fa-cloud-upload-alt"></i>
+              <h3>Clique ou arraste arquivos aqui</h3>
+              <p>Suportamos MP4, AVI, MOV (máx. 500MB)</p>
+              <input type="file" id="video-file" accept="video/*" style="display: none;">
+            </div>
+
+            <div class="upload-form" id="upload-form" style="display: none;">
+              <div class="video-preview">
+                <video id="video-preview" controls style="max-width: 100%; max-height: 300px;"></video>
+              </div>
+
+              <form id="video-metadata-form">
+                <div class="form-row">
+                  <div class="form-group">
+                    <label for="video-title">Título do Vídeo *</label>
+                    <input type="text" id="video-title" required>
+                  </div>
+                  <div class="form-group">
+                    <label for="video-category">Categoria *</label>
+                    <select id="video-category" required>
+                      <option value="">Selecione uma categoria</option>
+                      <option value="matematica">Matemática</option>
+                      <option value="fisica">Física</option>
+                      <option value="quimica">Química</option>
+                      <option value="programacao">Programação</option>
+                      <option value="eletronica">Eletrônica</option>
+                      <option value="outros">Outros</option>
+                    </select>
+                  </div>
+                </div>
+
+                <div class="form-group">
+                  <label for="video-description">Descrição</label>
+                  <textarea id="video-description" rows="4" placeholder="Descreva o conteúdo do vídeo..."></textarea>
+                </div>
+
+                <div class="form-row">
+                  <div class="form-group">
+                    <label for="video-duration">Duração (minutos)</label>
+                    <input type="number" id="video-duration" min="1">
+                  </div>
+                  <div class="form-group">
+                    <label for="video-level">Nível de Dificuldade</label>
+                    <select id="video-level">
+                      <option value="basico">Básico</option>
+                      <option value="intermediario">Intermediário</option>
+                      <option value="avancado">Avançado</option>
+                    </select>
+                  </div>
+                </div>
+
+                <div class="form-group">
+                  <label for="video-tags">Tags (separadas por vírgula)</label>
+                  <input type="text" id="video-tags" placeholder="Ex: álgebra, equações, matemática básica">
+                </div>
+
+                <div class="form-actions">
+                  <button type="button" class="btn btn-secondary" id="cancel-upload">Cancelar</button>
+                  <button type="submit" class="btn btn-primary">Salvar Vídeo</button>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+
+        <!-- Seção Categorias -->
+        <div id="categories-section" class="admin-section">
+          <div class="section-header">
+            <h2><i class="fas fa-tags"></i> Gerenciar Categorias</h2>
+            <button class="btn btn-primary" id="add-category-btn">
+              <i class="fas fa-plus"></i> Nova Categoria
+            </button>
+          </div>
+
+          <div class="categories-grid" id="categories-grid">
+            <!-- Categorias serão carregadas dinamicamente -->
+          </div>
+        </div>
+
+        <!-- Seção Analytics -->
+        <div id="analytics-section" class="admin-section">
+          <div class="section-header">
+            <h2><i class="fas fa-chart-bar"></i> Analytics</h2>
+          </div>
+
+          <div class="analytics-grid">
+            <div class="analytics-card">
+              <h3>Total de Vídeos</h3>
+              <div class="analytics-number" id="total-videos">0</div>
+            </div>
+            <div class="analytics-card">
+              <h3>Vídeos por Categoria</h3>
+              <canvas id="category-chart"></canvas>
+            </div>
+            <div class="analytics-card">
+              <h3>Visualizações Totais</h3>
+              <div class="analytics-number" id="total-views">0</div>
+            </div>
+            <div class="analytics-card">
+              <h3>Engajamento</h3>
+              <div class="analytics-number" id="engagement-rate">0%</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Modal de Edição -->
+  <div id="edit-modal" class="modal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2>Editar Vídeo</h2>
+        <span class="close-modal">&times;</span>
+      </div>
+      <div class="modal-body">
+        <form id="edit-video-form">
+          <div class="form-group">
+            <label for="edit-title">Título</label>
+            <input type="text" id="edit-title" required>
+          </div>
+          <div class="form-group">
+            <label for="edit-category">Categoria</label>
+            <select id="edit-category" required>
+              <option value="matematica">Matemática</option>
+              <option value="fisica">Física</option>
+              <option value="quimica">Química</option>
+              <option value="programacao">Programação</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="edit-description">Descrição</label>
+            <textarea id="edit-description" rows="3"></textarea>
+          </div>
+          <div class="form-actions">
+            <button type="button" class="btn btn-secondary" onclick="closeEditModal()">Cancelar</button>
+            <button type="submit" class="btn btn-primary">Salvar</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+</main>
+
+<!-- Footer -->
+<footer class="footer">
+  <div class="footer-content">
+    <div class="footer-section">
+      <h3><i class="fas fa-graduation-cap"></i> MentorX Admin</h3>
+      <p>Painel administrativo da plataforma MentorX</p>
+    </div>
+    <div class="footer-section">
+      <h3>Contato</h3>
+      <p><i class="fas fa-envelope"></i> admin@mentorx.com</p>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <p>&copy; 2026 MentorX. Todos os direitos reservados.</p>
+  </div>
+</footer>
+
+<script src="js/script.js"></script>
+<script src="js/admin.js"></script>
+</body>
+</html>
