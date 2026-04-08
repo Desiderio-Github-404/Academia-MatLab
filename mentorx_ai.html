@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MentorX AI - Inteligência Artificial para Educação</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body class="dark-mode">
+
+<canvas id="stars"></canvas>
+
+<!-- Botão de alternância de tema -->
+<button id="darkModeToggle">🌙</button>
+
+<!-- Header com navegação -->
+<header class="header">
+  <nav class="navbar">
+    <div class="logo">
+      <a href="index.html"><img src="img/logo.png" alt="MentorX Logo" style="height: 160px; margin-right: 10px;"></a>
+    </div>
+    <ul class="nav-links">
+      <li><a href="MentorX_Academy.html">MentorX Academy</a></li>
+      <li><a href="mentorx_community.html">MentorX Community</a></li>
+      <li><a href="mentorx_ai.html">MentorX AI</a></li>
+      <li><a href="index.html#contact">Contato</a></li>
+    </ul>
+    <div class="hamburger">
+      <span></span>
+      <span></span>
+      <span></span>
+    </div>
+  </nav>
+</header>
+
+<main>
+  <!-- Hero Section -->
+  <section id="ai-hero" class="hero">
+    <div class="hero-content">
+      <h1>MentorX AI</h1>
+      <p>Inteligência artificial especializada em educação para potencializar seu aprendizado</p>
+      <div class="hero-buttons">
+        <a href="#ai-tools" class="btn btn-primary">Explorar Ferramentas</a>
+        <a href="#ai-demo" class="btn btn-secondary">Ver Demonstração</a>
+      </div>
+    </div>
+    <img src="img/inteligencia artificial.jpeg" alt="MentorX AI Hero" class="hero-image">
+  </section>
+
+  <!-- Ferramentas de IA -->
+  <section id="ai-tools" class="tools-section">
+    <div class="tools-container">
+      <h2>Ferramentas de IA Disponíveis</h2>
+      <div class="tools-grid">
+        <div class="tool-card">
+          <div class="tool-icon">
+            <i class="fas fa-check-circle"></i>
+          </div>
+          <h3>Correção de Provas</h3>
+          <p>Correção automática e instantânea de provas e exercícios, com feedback detalhado e sugestões de melhoria.</p>
+          <button class="tool-btn">Experimentar</button>
+        </div>
+        <div class="tool-card">
+          <div class="tool-icon">
+            <i class="fas fa-question-circle"></i>
+          </div>
+          <h3>Geração de Questões</h3>
+          <p>Crie questões personalizadas baseadas no seu nível de conhecimento e nas matérias que está estudando.</p>
+          <button class="tool-btn">Experimentar</button>
+        </div>
+        <div class="tool-card">
+          <div class="tool-icon">
+            <i class="fas fa-brain"></i>
+          </div>
+          <h3>Assistente de Estudos</h3>
+          <p>Responda dúvidas instantaneamente e receba explicações personalizadas sobre qualquer conceito.</p>
+          <button class="tool-btn">Experimentar</button>
+        </div>
+        <div class="tool-card">
+          <div class="tool-icon">
+            <i class="fas fa-chart-line"></i>
+          </div>
+          <h3>Análise de Desempenho</h3>
+          <p>Acompanhe seu progresso e receba insights sobre suas forças e áreas que precisam de mais atenção.</p>
+          <button class="tool-btn">Experimentar</button>
+        </div>
+        <div class="tool-card">
+          <div class="tool-icon">
+            <i class="fas fa-lightbulb"></i>
+          </div>
+          <h3>Recomendações Personalizadas</h3>
+          <p>Conteúdos e exercícios recomendados especificamente para seu perfil de aprendizado.</p>
+          <button class="tool-btn">Experimentar</button>
+        </div>
+        <div class="tool-card">
+          <div class="tool-icon">
+            <i class="fas fa-clock"></i>
+          </div>
+          <h3>Planejamento Inteligente</h3>
+          <p>Crie cronogramas de estudo otimizados baseados em sua disponibilidade e objetivos.</p>
+          <button class="tool-btn">Experimentar</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Demonstração Interativa -->
+  <section id="ai-demo" class="demo-section">
+    <div class="demo-container">
+      <h2>Demonstração Interativa</h2>
+      <p>Teste algumas das funcionalidades da nossa IA educacional</p>
+
+      <div class="demo-chat">
+        <div class="chat-messages" id="chat-messages">
+          <div class="message ai-message">
+            <div class="message-avatar">
+              <i class="fas fa-robot"></i>
+            </div>
+            <div class="message-content">
+              <p>Olá! Sou o MentorX AI. Como posso ajudar você hoje? Pergunte-me sobre qualquer conceito de matemática, física, programação ou outras disciplinas!</p>
+            </div>
+          </div>
+        </div>
+        <div class="chat-input">
+          <input type="text" id="chat-input" placeholder="Digite sua pergunta aqui...">
+          <button id="send-btn"><i class="fas fa-paper-plane"></i></button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Planos e Preços -->
+  <section class="pricing-section">
+    <div class="pricing-container">
+      <h2>Planos MentorX AI</h2>
+      <div class="pricing-grid">
+        <div class="pricing-card">
+          <h3>Free</h3>
+          <div class="price">Grátis</div>
+          <ul>
+            <li>10 perguntas por dia</li>
+            <li>Correção básica</li>
+            <li>Recomendações simples</li>
+            <li>Acesso limitado</li>
+          </ul>
+          <button class="pricing-btn">Começar Grátis</button>
+        </div>
+        <div class="pricing-card featured">
+          <h3>Pro</h3>
+          <div class="price">€9.99/mês</div>
+          <ul>
+            <li>Perguntas ilimitadas</li>
+            <li>Correção avançada</li>
+            <li>Análise completa</li>
+            <li>Planejamento inteligente</li>
+            <li>Suporte prioritário</li>
+          </ul>
+          <button class="pricing-btn featured-btn">Assinar Pro</button>
+        </div>
+        <div class="pricing-card">
+          <h3>Premium</h3>
+          <div class="price">€19.99/mês</div>
+          <ul>
+            <li>Tudo do Pro</li>
+            <li>IA personalizada</li>
+            <li>Relatórios detalhados</li>
+            <li>Acesso antecipado</li>
+            <li>Consultoria individual</li>
+          </ul>
+          <button class="pricing-btn">Assinar Premium</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<!-- Footer -->
+<footer id="contact" class="footer">
+  <div class="footer-content">
+    <div class="footer-section">
+      <h3>MentorX</h3>
+      <p>Plataforma de ensino tecnológico</p>
+    </div>
+    <div class="footer-section">
+      <h3>Contato</h3>
+      <p>Email: contato@mentorx.com</p>
+      <p>Telefone: (11) 9999-9999</p>
+    </div>
+    <div class="footer-section">
+      <h3>Redes Sociais</h3>
+      <div class="social-links">
+        <a href="#"><i class="fab fa-facebook"></i></a>
+        <a href="#"><i class="fab fa-twitter"></i></a>
+        <a href="#"><i class="fab fa-instagram"></i></a>
+      </div>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <p>&copy; 2026 MentorX. Todos os direitos reservados.</p>
+  </div>
+</footer>
+
+<script src="js/script.js"></script>
+<script src="js/ai.js"></script>
+</body>
+</html>

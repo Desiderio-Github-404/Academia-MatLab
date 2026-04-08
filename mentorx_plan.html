@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MentorX Plan - Planejamento Personalizado</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body class="dark-mode">
+
+<canvas id="stars"></canvas>
+
+<!-- Botão de alternância de tema -->
+<button id="darkModeToggle">🌙</button>
+
+<!-- Header com navegação -->
+<header class="header">
+  <nav class="navbar">
+    <div class="logo">
+      <a href="index.html"><img src="img/logo.png" alt="MentorX Logo" style="height: 160px; margin-right: 10px;"></a>
+    </div>
+    <ul class="nav-links">
+      <li><a href="MentorX_Academy.html">MentorX Academy</a></li>
+      <li><a href="mentorx_community.html">MentorX Community</a></li>
+      <li><a href="mentorx_ai.html">MentorX AI</a></li>
+      <li><a href="index.html#contact">Contato</a></li>
+    </ul>
+    <div class="hamburger">
+      <span></span>
+      <span></span>
+      <span></span>
+    </div>
+  </nav>
+</header>
+
+<main>
+  <!-- Hero Section -->
+  <section id="plan-hero" class="hero">
+    <div class="hero-content">
+      <h1>MentorX Plan</h1>
+      <p>Planejamento personalizado 'zero a hero' em ciência e tecnologia</p>
+      <div class="hero-buttons">
+        <a href="#assessment" class="btn btn-primary">Fazer Avaliação</a>
+        <a href="#plans" class="btn btn-secondary">Ver Planos</a>
+      </div>
+    </div>
+    <img src="img/roadmap.jpg" alt="MentorX Plan Hero" class="hero-image">
+  </section>
+
+  <!-- Avaliação Inicial -->
+  <section id="assessment" class="assessment-section">
+    <div class="assessment-container">
+      <h2>Avaliação Inicial</h2>
+      <p>Responda algumas perguntas para criarmos seu plano personalizado</p>
+
+      <div class="assessment-form">
+        <div class="assessment-step active" id="step-1">
+          <h3>Qual é seu nível atual?</h3>
+          <div class="options">
+            <button class="option-btn" data-value="beginner">Iniciante</button>
+            <button class="option-btn" data-value="intermediate">Intermediário</button>
+            <button class="option-btn" data-value="advanced">Avançado</button>
+          </div>
+        </div>
+
+        <div class="assessment-step" id="step-2">
+          <h3>Qual área você quer focar?</h3>
+          <div class="options">
+            <button class="option-btn" data-value="programming">Programação</button>
+            <button class="option-btn" data-value="math">Matemática</button>
+            <button class="option-btn" data-value="physics">Física</button>
+            <button class="option-btn" data-value="electronics">Eletrônica</button>
+            <button class="option-btn" data-value="all">Todas as áreas</button>
+          </div>
+        </div>
+
+        <div class="assessment-step" id="step-3">
+          <h3>Quanto tempo você pode dedicar por semana?</h3>
+          <div class="options">
+            <button class="option-btn" data-value="5-10">5-10 horas</button>
+            <button class="option-btn" data-value="10-20">10-20 horas</button>
+            <button class="option-btn" data-value="20+">Mais de 20 horas</button>
+          </div>
+        </div>
+
+        <div class="assessment-step" id="step-4">
+          <h3>Qual é seu objetivo principal?</h3>
+          <div class="options">
+            <button class="option-btn" data-value="career">Carreira em Tech</button>
+            <button class="option-btn" data-value="university">Universidade</button>
+            <button class="option-btn" data-value="personal">Conhecimento Pessoal</button>
+            <button class="option-btn" data-value="projects">Projetos Práticos</button>
+          </div>
+        </div>
+
+        <div class="assessment-navigation">
+          <button id="prev-btn" class="nav-btn" disabled>Anterior</button>
+          <div class="progress">
+            <div class="progress-bar" id="progress-bar"></div>
+          </div>
+          <button id="next-btn" class="nav-btn">Próximo</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Planos Disponíveis -->
+  <section id="plans" class="plans-section">
+    <div class="plans-container">
+      <h2>Planos de Estudo</h2>
+      <div class="plans-grid">
+        <div class="plan-card">
+          <div class="plan-header">
+            <h3>Plano Básico</h3>
+            <div class="plan-price">Grátis</div>
+          </div>
+          <ul class="plan-features">
+            <li>Roteiro básico personalizado</li>
+            <li>Acompanhamento semanal</li>
+            <li>5 metas por mês</li>
+            <li>Relatório mensal</li>
+            <li>Suporte por email</li>
+          </ul>
+          <button class="plan-btn">Começar Grátis</button>
+        </div>
+
+        <div class="plan-card featured">
+          <div class="plan-header">
+            <h3>Plano Pro</h3>
+            <div class="plan-price">€14.99/mês</div>
+          </div>
+          <ul class="plan-features">
+            <li>Roteiro avançado personalizado</li>
+            <li>Acompanhamento diário</li>
+            <li>Metas ilimitadas</li>
+            <li>Relatórios semanais detalhados</li>
+            <li>Suporte prioritário</li>
+            <li>Mentoria individual</li>
+            <li>Adaptação em tempo real</li>
+          </ul>
+          <button class="plan-btn featured-btn">Assinar Pro</button>
+        </div>
+
+        <div class="plan-card">
+          <div class="plan-header">
+            <h3>Plano Premium</h3>
+            <div class="plan-price">€29.99/mês</div>
+          </div>
+          <ul class="plan-features">
+            <li>Tudo do Pro</li>
+            <li>Mentor pessoal dedicado</li>
+            <li>Reuniões semanais por video</li>
+            <li>Projetos personalizados</li>
+            <li>Certificado de conclusão</li>
+            <li>Acesso antecipado a conteúdos</li>
+            <li>Comunidade VIP</li>
+          </ul>
+          <button class="plan-btn">Assinar Premium</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Exemplo de Roteiro -->
+  <section class="roadmap-section">
+    <div class="roadmap-container">
+      <h2>Exemplo de Roteiro Personalizado</h2>
+      <div class="roadmap">
+        <div class="roadmap-item">
+          <div class="roadmap-number">1</div>
+          <div class="roadmap-content">
+            <h4>Mês 1: Fundamentos</h4>
+            <p>Introdução aos conceitos básicos de programação, lógica e algoritmos</p>
+            <ul>
+              <li>Lógica de programação</li>
+              <li>Variáveis e tipos de dados</li>
+              <li>Estruturas condicionais</li>
+              <li>Loops e iterações</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="roadmap-item">
+          <div class="roadmap-number">2</div>
+          <div class="roadmap-content">
+            <h4>Mês 2: Estruturas de Dados</h4>
+            <p>Aprendizado sobre arrays, listas, pilhas, filas e algoritmos de busca</p>
+            <ul>
+              <li>Arrays e listas</li>
+              <li>Algoritmos de ordenação</li>
+              <li>Estruturas de dados básicas</li>
+              <li>Complexidade algorítmica</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="roadmap-item">
+          <div class="roadmap-number">3</div>
+          <div class="roadmap-content">
+            <h4>Mês 3: Programação Orientada a Objetos</h4>
+            <p>Conceitos de OOP, classes, objetos, herança e polimorfismo</p>
+            <ul>
+              <li>Classes e objetos</li>
+              <li>Encapsulamento</li>
+              <li>Herança e polimorfismo</li>
+              <li>Design patterns básicos</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="roadmap-item">
+          <div class="roadmap-number">4</div>
+          <div class="roadmap-content">
+            <h4>Mês 4: Projeto Prático</h4>
+            <p>Desenvolvimento de um projeto completo aplicando todos os conceitos aprendidos</p>
+            <ul>
+              <li>Planejamento do projeto</li>
+              <li>Implementação</li>
+              <li>Testes e debugging</li>
+              <li>Apresentação final</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Depoimentos -->
+  <section class="testimonials-section">
+    <div class="testimonials-container">
+      <h2>O que nossos alunos dizem</h2>
+      <div class="testimonials-grid">
+        <div class="testimonial-card">
+          <div class="testimonial-content">
+            <p>"O plano personalizado me ajudou a organizar meus estudos de forma eficiente. Consegui aprender programação em 6 meses!"</p>
+          </div>
+          <div class="testimonial-author">
+            <img src="img/logo.png" alt="João Silva">
+            <div>
+              <h4>João Silva</h4>
+              <span>Desenvolvedor Full Stack</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="testimonial-card">
+          <div class="testimonial-content">
+            <p>"A adaptação em tempo real do plano foi incrível. Sempre que tinha dificuldade, o sistema ajustava automaticamente."</p>
+          </div>
+          <div class="testimonial-author">
+            <img src="img/logo.png" alt="Maria Santos">
+            <div>
+              <h4>Maria Santos</h4>
+              <span>Engenheira de Software</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="testimonial-card">
+          <div class="testimonial-content">
+            <p>"O acompanhamento semanal e as metas claras me mantiveram motivado durante toda a jornada de aprendizado."</p>
+          </div>
+          <div class="testimonial-author">
+            <img src="img/logo.png" alt="Pedro Costa">
+            <div>
+              <h4>Pedro Costa</h4>
+              <span>Analista de Dados</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<!-- Footer -->
+<footer id="contact" class="footer">
+  <div class="footer-content">
+    <div class="footer-section">
+      <h3>MentorX</h3>
+      <p>Plataforma de ensino tecnológico</p>
+    </div>
+    <div class="footer-section">
+      <h3>Contato</h3>
+      <p>Email: contato@mentorx.com</p>
+      <p>Telefone: (11) 9999-9999</p>
+    </div>
+    <div class="footer-section">
+      <h3>Redes Sociais</h3>
+      <div class="social-links">
+        <a href="#"><i class="fab fa-facebook"></i></a>
+        <a href="#"><i class="fab fa-twitter"></i></a>
+        <a href="#"><i class="fab fa-instagram"></i></a>
+      </div>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <p>&copy; 2026 MentorX. Todos os direitos reservados.</p>
+  </div>
+</footer>
+
+<script src="js/script.js"></script>
+<script src="js/plan.js"></script>
+</body>
+</html>

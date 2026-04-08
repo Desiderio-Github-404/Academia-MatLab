@@ -1,0 +1,383 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MentorX Reels - Vídeos Educacionais</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body class="dark-mode">
+
+<canvas id="stars"></canvas>
+
+<!-- Botão de alternância de tema -->
+<button id="darkModeToggle">🌙</button>
+
+<!-- Header com navegação -->
+<header class="header">
+  <nav class="navbar">
+    <div class="logo">
+      <a href="index.html"><img src="img/logo.png" alt="MentorX Logo" style="height: 160px; margin-right: 10px;"></a>
+    </div>
+    <ul class="nav-links">
+      <li><a href="MentorX_Academy.html">MentorX Academy</a></li>
+      <li><a href="mentorx_community.html">MentorX Community</a></li>
+      <li><a href="mentorx_ai.html">MentorX AI</a></li>
+      <li><a href="index.html#contact">Contato</a></li>
+    </ul>
+    <div class="hamburger">
+      <span></span>
+      <span></span>
+      <span></span>
+    </div>
+  </nav>
+</header>
+
+<main>
+  <!-- Hero Section -->
+  <section id="reels-hero" class="hero">
+    <div class="hero-content">
+      <h1>MentorX Reels</h1>
+      <p>Vídeos curtos e dinâmicos para aprendizado rápido e eficiente</p>
+      <div class="hero-buttons">
+        <a href="#reels-feed" class="btn btn-primary">Ver Reels</a>
+        <a href="#create-reel" class="btn btn-secondary">Criar Reel</a>
+      </div>
+    </div>
+    <img src="img/tips.jpg" alt="MentorX Reels Hero" class="hero-image">
+  </section>
+
+  <!-- Feed de Reels -->
+  <section id="reels-feed" class="reels-section">
+    <div class="reels-container">
+      <div class="reels-grid">
+        <!-- Reel 1 -->
+        <div class="reel-card">
+          <div class="reel-video">
+            <video controls poster="img/programação.jpeg">
+              <source src="video/sample1.mp4" type="video/mp4">
+              Seu navegador não suporta vídeos.
+            </video>
+          </div>
+          <div class="reel-content">
+            <div class="reel-header">
+              <img src="img/logo.png" alt="MentorX" class="reel-avatar">
+              <div class="reel-info">
+                <h4>MentorX</h4>
+                <span>Dica rápida de Python</span>
+              </div>
+              <button class="follow-btn">Seguir</button>
+            </div>
+            <p class="reel-description">Como usar list comprehensions em Python para escrever código mais limpo e eficiente! 🚀 #Python #Programação #Dicas</p>
+            <div class="reel-actions">
+              <button class="action-btn">
+                <i class="fas fa-heart"></i>
+                <span>1.2K</span>
+              </button>
+              <button class="action-btn">
+                <i class="fas fa-comment"></i>
+                <span>89</span>
+              </button>
+              <button class="action-btn">
+                <i class="fas fa-share"></i>
+                <span>45</span>
+              </button>
+              <button class="action-btn">
+                <i class="fas fa-bookmark"></i>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Reel 2 -->
+        <div class="reel-card">
+          <div class="reel-video">
+            <video controls poster="img/física.jpeg">
+              <source src="video/sample2.mp4" type="video/mp4">
+              Seu navegador não suporta vídeos.
+            </video>
+          </div>
+          <div class="reel-content">
+            <div class="reel-header">
+              <img src="img/logo.png" alt="Prof. Silva" class="reel-avatar">
+              <div class="reel-info">
+                <h4>Prof. Silva</h4>
+                <span>Lei de Ohm explicada</span>
+              </div>
+              <button class="follow-btn">Seguir</button>
+            </div>
+            <p class="reel-description">Entenda a Lei de Ohm em 60 segundos! V = I × R 📚 #Física #Eletricidade #Ciência</p>
+            <div class="reel-actions">
+              <button class="action-btn">
+                <i class="fas fa-heart"></i>
+                <span>956</span>
+              </button>
+              <button class="action-btn">
+                <i class="fas fa-comment"></i>
+                <span>67</span>
+              </button>
+              <button class="action-btn">
+                <i class="fas fa-share"></i>
+                <span>32</span>
+              </button>
+              <button class="action-btn">
+                <i class="fas fa-bookmark"></i>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Reel 3 -->
+        <div class="reel-card">
+          <div class="reel-video">
+            <video controls poster="img/matemática.jpeg">
+              <source src="video/sample3.mp4" type="video/mp4">
+              Seu navegador não suporta vídeos.
+            </video>
+          </div>
+          <div class="reel-content">
+            <div class="reel-header">
+              <img src="img/logo.png" alt="Matemática Fácil" class="reel-avatar">
+              <div class="reel-info">
+                <h4>Matemática Fácil</h4>
+                <span>Derivadas em 2 minutos</span>
+              </div>
+              <button class="follow-btn">Seguir</button>
+            </div>
+            <p class="reel-description">Derivada de funções polinomiais explicada de forma simples! 📐 #Matemática #Cálculo #Estudante</p>
+            <div class="reel-actions">
+              <button class="action-btn">
+                <i class="fas fa-heart"></i>
+                <span>2.1K</span>
+              </button>
+              <button class="action-btn">
+                <i class="fas fa-comment"></i>
+                <span>145</span>
+              </button>
+              <button class="action-btn">
+                <i class="fas fa-share"></i>
+                <span>78</span>
+              </button>
+              <button class="action-btn">
+                <i class="fas fa-bookmark"></i>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Reel 4 -->
+        <div class="reel-card">
+          <div class="reel-video">
+            <video controls poster="img/eletrónica.jpeg">
+              <source src="video/sample4.mp4" type="video/mp4">
+              Seu navegador não suporta vídeos.
+            </video>
+          </div>
+          <div class="reel-content">
+            <div class="reel-header">
+              <img src="img/logo.png" alt="Eletrônica Pro" class="reel-avatar">
+              <div class="reel-info">
+                <h4>Eletrônica Pro</h4>
+                <span>Circuito Arduino básico</span>
+              </div>
+              <button class="follow-btn">Seguir</button>
+            </div>
+            <p class="reel-description">Como fazer um LED piscar com Arduino! Perfeito para iniciantes 🔌 #Arduino #Eletrônica #IoT</p>
+            <div class="reel-actions">
+              <button class="action-btn">
+                <i class="fas fa-heart"></i>
+                <span>1.8K</span>
+              </button>
+              <button class="action-btn">
+                <i class="fas fa-comment"></i>
+                <span>112</span>
+              </button>
+              <button class="action-btn">
+                <i class="fas fa-share"></i>
+                <span>56</span>
+              </button>
+              <button class="action-btn">
+                <i class="fas fa-bookmark"></i>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Reel 5 -->
+        <div class="reel-card">
+          <div class="reel-video">
+            <video controls poster="img/quimica.jpeg">
+              <source src="video/sample5.mp4" type="video/mp4">
+              Seu navegador não suporta vídeos.
+            </video>
+          </div>
+          <div class="reel-content">
+            <div class="reel-header">
+              <img src="img/logo.png" alt="Química Divertida" class="reel-avatar">
+              <div class="reel-info">
+                <h4>Química Divertida</h4>
+                <span>Tabela periódica hackeada</span>
+              </div>
+              <button class="follow-btn">Seguir</button>
+            </div>
+            <p class="reel-description">Como decorar a tabela periódica de forma fácil e divertida! 🧪 #Química #TabelaPeriódica #Estudos</p>
+            <div class="reel-actions">
+              <button class="action-btn">
+                <i class="fas fa-heart"></i>
+                <span>3.2K</span>
+              </button>
+              <button class="action-btn">
+                <i class="fas fa-comment"></i>
+                <span>203</span>
+              </button>
+              <button class="action-btn">
+                <i class="fas fa-share"></i>
+                <span>98</span>
+              </button>
+              <button class="action-btn">
+                <i class="fas fa-bookmark"></i>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Reel 6 -->
+        <div class="reel-card">
+          <div class="reel-video">
+            <video controls poster="img/cibersegurança.jpeg">
+              <source src="video/sample6.mp4" type="video/mp4">
+              Seu navegador não suporta vídeos.
+            </video>
+          </div>
+          <div class="reel-content">
+            <div class="reel-header">
+              <img src="img/logo.png" alt="CyberSec" class="reel-avatar">
+              <div class="reel-info">
+                <h4>CyberSec</h4>
+                <span>Senhas seguras</span>
+              </div>
+              <button class="follow-btn">Seguir</button>
+            </div>
+            <p class="reel-description">Como criar senhas realmente seguras e fáceis de lembrar! 🔐 #Cibersegurança #Senha #Segurança</p>
+            <div class="reel-actions">
+              <button class="action-btn">
+                <i class="fas fa-heart"></i>
+                <span>1.5K</span>
+              </button>
+              <button class="action-btn">
+                <i class="fas fa-comment"></i>
+                <span>94</span>
+              </button>
+              <button class="action-btn">
+                <i class="fas fa-share"></i>
+                <span>41</span>
+              </button>
+              <button class="action-btn">
+                <i class="fas fa-bookmark"></i>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Criar Reel -->
+  <section id="create-reel" class="create-section">
+    <div class="create-container">
+      <h2>Crie seu Próprio Reel</h2>
+      <p>Compartilhe seu conhecimento com a comunidade MentorX</p>
+
+      <div class="create-form">
+        <div class="upload-area">
+          <i class="fas fa-cloud-upload-alt"></i>
+          <p>Clique para fazer upload do seu vídeo</p>
+          <span>Máximo 60 segundos, até 100MB</span>
+          <input type="file" id="video-upload" accept="video/*" hidden>
+        </div>
+
+        <div class="reel-form">
+          <div class="form-group">
+            <label for="reel-title">Título do Reel</label>
+            <input type="text" id="reel-title" placeholder="Ex: Dica rápida de Python">
+          </div>
+
+          <div class="form-group">
+            <label for="reel-description">Descrição</label>
+            <textarea id="reel-description" placeholder="Descreva seu reel..."></textarea>
+          </div>
+
+          <div class="form-group">
+            <label for="reel-tags">Tags</label>
+            <input type="text" id="reel-tags" placeholder="Ex: #Python #Programação #Dicas">
+          </div>
+
+          <div class="form-group">
+            <label for="reel-category">Categoria</label>
+            <select id="reel-category">
+              <option value="">Selecione uma categoria</option>
+              <option value="programming">Programação</option>
+              <option value="math">Matemática</option>
+              <option value="physics">Física</option>
+              <option value="electronics">Eletrônica</option>
+              <option value="chemistry">Química</option>
+              <option value="other">Outros</option>
+            </select>
+          </div>
+
+          <button class="create-btn">Publicar Reel</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Categorias de Reels -->
+  <section class="categories-section">
+    <div class="categories-container">
+      <h2>Explore por Categoria</h2>
+      <div class="reel-categories">
+        <button class="category-btn active" data-category="all">Todos</button>
+        <button class="category-btn" data-category="programming">Programação</button>
+        <button class="category-btn" data-category="math">Matemática</button>
+        <button class="category-btn" data-category="physics">Física</button>
+        <button class="category-btn" data-category="electronics">Eletrônica</button>
+        <button class="category-btn" data-category="chemistry">Química</button>
+        <button class="category-btn" data-category="tips">Dicas</button>
+        <button class="category-btn" data-category="projects">Projetos</button>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<!-- Footer -->
+<footer id="contact" class="footer">
+  <div class="footer-content">
+    <div class="footer-section">
+      <h3>MentorX</h3>
+      <p>Plataforma de ensino tecnológico</p>
+    </div>
+    <div class="footer-section">
+      <h3>Contato</h3>
+      <p>Email: contato@mentorx.com</p>
+      <p>Telefone: (11) 9999-9999</p>
+    </div>
+    <div class="footer-section">
+      <h3>Redes Sociais</h3>
+      <div class="social-links">
+        <a href="#"><i class="fab fa-facebook"></i></a>
+        <a href="#"><i class="fab fa-twitter"></i></a>
+        <a href="#"><i class="fab fa-instagram"></i></a>
+      </div>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <p>&copy; 2026 MentorX. Todos os direitos reservados.</p>
+  </div>
+</footer>
+
+<script src="js/script.js"></script>
+<script src="js/reels.js"></script>
+</body>
+</html>

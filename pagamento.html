@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pagamento - MentorX Academy</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body class="dark-mode">
+
+<canvas id="stars"></canvas>
+
+<!-- Botão de alternância de tema -->
+<button id="darkModeToggle">🌙</button>
+
+<!-- Header com navegação -->
+<header class="header">
+  <nav class="navbar">
+    <div class="logo">
+      <a href="index.html"><img src="img/logo.png" alt="MentorX Logo" style="height: 160px; margin-right: 10px;"></a>
+    </div>
+    <ul class="nav-links">
+      <li><a href="index.html#academy">MentorX Academy</a></li>
+      <li><a href="index.html#community">MentorX Community</a></li>
+      <li><a href="index.html#ai">MentorX AI</a></li>
+      <li><a href="index.html#contact">Contato</a></li>
+    </ul>
+    <div class="hamburger">
+      <span></span>
+      <span></span>
+      <span></span>
+    </div>
+  </nav>
+</header>
+
+<main>
+  <!-- Seção de Pagamento -->
+  <section class="payment-section">
+    <div class="payment-container">
+      <h1>Pagamento Seguro</h1>
+      <p>Escolha seu método de pagamento para acessar o curso</p>
+
+      <div class="payment-methods">
+        <div class="payment-method" data-method="visa">
+          <i class="fab fa-cc-visa"></i>
+          <span>Visa</span>
+        </div>
+        <div class="payment-method" data-method="mastercard">
+          <i class="fab fa-cc-mastercard"></i>
+          <span>Mastercard</span>
+        </div>
+        <div class="payment-method" data-method="multicaixa">
+          <i class="fas fa-university"></i>
+          <span>Multicaixa Express</span>
+        </div>
+      </div>
+
+      <form id="payment-form" class="payment-form">
+        <div class="form-group">
+          <label for="card-number">Número do Cartão</label>
+          <input type="text" id="card-number" placeholder="1234 5678 9012 3456" required>
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label for="expiry">Data de Expiração</label>
+            <input type="text" id="expiry" placeholder="MM/AA" required>
+          </div>
+          <div class="form-group">
+            <label for="cvv">CVV</label>
+            <input type="text" id="cvv" placeholder="123" required>
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="name">Nome no Cartão</label>
+          <input type="text" id="name" placeholder="João Silva" required>
+        </div>
+        <button type="submit" class="pay-btn">Pagar Agora</button>
+      </form>
+    </div>
+  </section>
+</main>
+
+<!-- Footer -->
+<footer id="contact" class="footer">
+  <div class="footer-content">
+    <div class="footer-section">
+      <h3>MentorX</h3>
+      <p>Plataforma de ensino tecnológico</p>
+    </div>
+    <div class="footer-section">
+      <h3>Contato</h3>
+      <p>Email: contato@mentorx.com</p>
+      <p>Telefone: (11) 9999-9999</p>
+    </div>
+    <div class="footer-section">
+      <h3>Redes Sociais</h3>
+      <div class="social-links">
+        <a href="#"><i class="fab fa-facebook"></i></a>
+        <a href="#"><i class="fab fa-twitter"></i></a>
+        <a href="#"><i class="fab fa-instagram"></i></a>
+      </div>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <p>&copy; 2026 MentorX. Todos os direitos reservados.</p>
+  </div>
+</footer>
+
+<script src="js/script.js"></script>
+<script src="js/payment.js"></script>
+</body>
+</html>
