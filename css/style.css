@@ -127,7 +127,7 @@ body.dark-mode .header {
 .navbar {
   max-width: 1200px;
   margin: 0 auto;
-  padding: 15px 20px 5px 10px;
+  padding: 5px 20px 5px 10px;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -333,6 +333,21 @@ body.dark-mode .section-title {
   gap: 30px;
 }
 
+.academy-layout {
+  flex-direction: row;
+}
+
+.section-text {
+  flex: 1 1 50%;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.section-grid {
+  flex: 1 1 50%;
+}
+
 .section-description {
   font-size: 1.1rem;
   line-height: 1.6;
@@ -340,6 +355,12 @@ body.dark-mode .section-title {
   text-align: center;
   max-width: 800px;
   margin: 0 auto;
+}
+
+.section-text .section-description {
+  text-align: left;
+  max-width: none;
+  margin: 0;
 }
 
 .section-buttons {
@@ -372,6 +393,10 @@ body.dark-mode .section-title {
 }
 
 .content-card.active {
+  display: block;
+}
+
+.all-visible .content-card {
   display: block;
 }
 

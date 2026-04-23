@@ -64,6 +64,8 @@ function animateStars(){
 // Carousel for sections
 const sections = document.querySelectorAll('.section');
 sections.forEach(section => {
+    const grid = section.querySelector('.content-grid');
+    if (grid && grid.classList.contains('all-visible')) return; // Skip carousel for all-visible grids
     const cards = section.querySelectorAll('.content-card');
     if (cards.length > 1) {
         let current = 0;
