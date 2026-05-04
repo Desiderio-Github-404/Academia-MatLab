@@ -1,0 +1,888 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Professor Dashboard - MentorX</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        .prof-dashboard {
+            display: flex;
+            min-height: calc(100vh - 80px);
+            background: var(--bg-light);
+            padding-top: 100px;
+        }
+
+        body.dark-mode .prof-dashboard {
+            background: var(--bg-dark);
+        }
+
+        .prof-sidebar {
+            width: 250px;
+            background: var(--card-bg-light);
+            border-right: 1px solid rgba(0,0,0,0.1);
+            padding: 30px 0;
+            overflow-y: auto;
+        }
+
+        body.dark-mode .prof-sidebar {
+            background: var(--card-bg);
+            border-right: 1px solid rgba(255,255,255,0.1);
+        }
+
+        .prof-sidebar h3 {
+            padding: 0 20px;
+            margin-bottom: 20px;
+            color: #333;
+            font-size: 16px;
+        }
+
+        body.dark-mode .prof-sidebar h3 {
+            color: #fff;
+        }
+
+        .prof-nav {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .prof-nav-item {
+            padding: 12px 20px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            color: #666;
+            border-left: 4px solid transparent;
+        }
+
+        body.dark-mode .prof-nav-item {
+            color: #aaa;
+        }
+
+        .prof-nav-item:hover {
+            background: rgba(102, 126, 234, 0.1);
+            color: #667eea;
+        }
+
+        .prof-nav-item.active {
+            background: rgba(102, 126, 234, 0.1);
+            color: #667eea;
+            border-left-color: #667eea;
+        }
+
+        .prof-nav-item i {
+            margin-right: 12px;
+            width: 20px;
+            text-align: center;
+        }
+
+        .prof-main {
+            flex: 1;
+            padding: 30px;
+            overflow-y: auto;
+        }
+
+        .prof-section {
+            display: none;
+        }
+
+        .prof-section.active {
+            display: block;
+            animation: fadeInUp 0.3s ease-out;
+        }
+
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+            border-bottom: 2px solid #f0f0f0;
+            padding-bottom: 15px;
+        }
+
+        body.dark-mode .section-header {
+            border-bottom-color: rgba(255,255,255,0.1);
+        }
+
+        .section-header h2 {
+            color: #333;
+            font-size: 24px;
+            margin: 0;
+        }
+
+        body.dark-mode .section-header h2 {
+            color: #fff;
+        }
+
+        /* Upload Section */
+        .upload-container {
+            background: var(--card-bg-light);
+            border: 2px dashed #667eea;
+            border-radius: 10px;
+            padding: 40px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-bottom: 30px;
+        }
+
+        body.dark-mode .upload-container {
+            background: var(--card-bg);
+            border-color: #667eea;
+        }
+
+        .upload-container:hover {
+            background: rgba(102, 126, 234, 0.05);
+            border-color: #764ba2;
+        }
+
+        .upload-container i {
+            font-size: 48px;
+            color: #667eea;
+            margin-bottom: 15px;
+        }
+
+        .upload-container p {
+            color: #666;
+            font-size: 16px;
+            margin: 0;
+        }
+
+        body.dark-mode .upload-container p {
+            color: #aaa;
+        }
+
+        #videoInput {
+            display: none;
+        }
+
+        .course-select {
+            width: 100%;
+            padding: 12px;
+            margin-bottom: 20px;
+            border: 1px solid #e0e0e0;
+            border-radius: 8px;
+            font-size: 16px;
+            background: var(--card-bg-light);
+            color: #333;
+        }
+
+        body.dark-mode .course-select {
+            background: var(--card-bg);
+            border-color: rgba(255,255,255,0.1);
+            color: #fff;
+        }
+
+        .video-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+        }
+
+        .video-card {
+            background: var(--card-bg-light);
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease;
+        }
+
+        body.dark-mode .video-card {
+            background: var(--card-bg);
+        }
+
+        .video-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .video-card-thumbnail {
+            width: 100%;
+            height: 150px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 40px;
+        }
+
+        .video-card-info {
+            padding: 15px;
+        }
+
+        .video-card-info h4 {
+            margin: 0 0 8px 0;
+            color: #333;
+            font-size: 14px;
+        }
+
+        body.dark-mode .video-card-info h4 {
+            color: #fff;
+        }
+
+        .video-card-info p {
+            margin: 0;
+            color: #999;
+            font-size: 12px;
+        }
+
+        /* Messages Section */
+        .messages-container {
+            display: grid;
+            grid-template-columns: 1fr 2fr;
+            gap: 20px;
+            height: 600px;
+        }
+
+        .messages-list {
+            background: var(--card-bg-light);
+            border-radius: 10px;
+            border: 1px solid rgba(0,0,0,0.1);
+            overflow-y: auto;
+        }
+
+        body.dark-mode .messages-list {
+            background: var(--card-bg);
+            border-color: rgba(255,255,255,0.1);
+        }
+
+        .message-item {
+            padding: 15px;
+            border-bottom: 1px solid rgba(0,0,0,0.05);
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        body.dark-mode .message-item {
+            border-bottom-color: rgba(255,255,255,0.05);
+        }
+
+        .message-item:hover {
+            background: rgba(102, 126, 234, 0.05);
+        }
+
+        .message-item.active {
+            background: rgba(102, 126, 234, 0.1);
+            border-left: 4px solid #667eea;
+        }
+
+        .message-item-name {
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 5px;
+        }
+
+        body.dark-mode .message-item-name {
+            color: #fff;
+        }
+
+        .message-item-preview {
+            color: #999;
+            font-size: 12px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .chat-box {
+            background: var(--card-bg-light);
+            border-radius: 10px;
+            border: 1px solid rgba(0,0,0,0.1);
+            display: flex;
+            flex-direction: column;
+        }
+
+        body.dark-mode .chat-box {
+            background: var(--card-bg);
+            border-color: rgba(255,255,255,0.1);
+        }
+
+        .chat-messages {
+            flex: 1;
+            overflow-y: auto;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .chat-message {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 10px;
+        }
+
+        .chat-message.own {
+            justify-content: flex-end;
+        }
+
+        .chat-bubble {
+            max-width: 70%;
+            padding: 12px 15px;
+            border-radius: 12px;
+            background: rgba(102, 126, 234, 0.1);
+            color: #333;
+            word-wrap: break-word;
+        }
+
+        body.dark-mode .chat-bubble {
+            color: #fff;
+        }
+
+        .chat-message.own .chat-bubble {
+            background: #667eea;
+            color: white;
+        }
+
+        .chat-time {
+            font-size: 12px;
+            color: #999;
+            margin-top: 5px;
+        }
+
+        .chat-input-box {
+            padding: 15px;
+            border-top: 1px solid rgba(0,0,0,0.1);
+            display: flex;
+            gap: 10px;
+        }
+
+        body.dark-mode .chat-input-box {
+            border-top-color: rgba(255,255,255,0.1);
+        }
+
+        .chat-input-box input {
+            flex: 1;
+            padding: 10px 15px;
+            border: 1px solid #e0e0e0;
+            border-radius: 8px;
+            font-size: 14px;
+            background: var(--card-bg-light);
+            color: #333;
+        }
+
+        body.dark-mode .chat-input-box input {
+            background: var(--card-bg);
+            border-color: rgba(255,255,255,0.1);
+            color: #fff;
+        }
+
+        .chat-input-box button {
+            padding: 10px 20px;
+            background: #667eea;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .chat-input-box button:hover {
+            background: #764ba2;
+        }
+
+        .no-chat-selected {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100%;
+            color: #999;
+            text-align: center;
+        }
+
+        @media (max-width: 1200px) {
+            .prof-dashboard {
+                flex-direction: column;
+            }
+
+            .prof-sidebar {
+                width: 100%;
+                border-right: none;
+                border-bottom: 1px solid rgba(0,0,0,0.1);
+                display: none;
+            }
+
+            .prof-sidebar.show {
+                display: block;
+            }
+
+            .messages-container {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .logout-btn {
+            margin-top: 30px;
+            width: calc(100% - 40px);
+            padding: 12px;
+            margin-left: 20px;
+            margin-right: 20px;
+            background: #ff6b6b;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .logout-btn:hover {
+            background: #ff5252;
+        }
+    </style>
+</head>
+<body class="dark-mode">
+
+<canvas id="stars"></canvas>
+
+<!-- Botão de alternância de tema -->
+<button id="darkModeToggle">🌙</button>
+
+<!-- Header com navegação -->
+<header class="header">
+  <nav class="navbar">
+    <div class="logo">
+      <a href="index.html"><img src="img/logo.png" alt="MentorX Logo" style="height: 160px; margin-right: 10px;"></a>
+    </div>
+    <ul class="nav-links">
+      <li><a href="index.html">Home</a></li>
+      <li><a href="professor-dashboard.html">Meus Cursos</a></li>
+      <li><a href="mentorx_academy.html">Academy</a></li>
+      <li><a href="mentorx_ai.html">AI</a></li>
+    </ul>
+    <div class="hamburger">
+      <span></span>
+      <span></span>
+      <span></span>
+    </div>
+  </nav>
+</header>
+
+<div class="prof-dashboard">
+  <!-- Sidebar -->
+  <aside class="prof-sidebar">
+    <h3><i class="fas fa-chalkboard-user"></i> Professor</h3>
+    <ul class="prof-nav">
+      <li class="prof-nav-item active" data-section="upload">
+        <i class="fas fa-video"></i> Meus Vídeos
+      </li>
+      <li class="prof-nav-item" data-section="messages-admin">
+        <i class="fas fa-envelope"></i> Admin
+        <span class="notification-badge" style="display: none; position: absolute; right: 10px; background: #ff6b6b; color: white; border-radius: 50%; width: 20px; height: 20px; display: flex; align-items: center; justify-content: center; font-size: 12px;">0</span>
+      </li>
+      <li class="prof-nav-item" data-section="messages-students">
+        <i class="fas fa-users"></i> Alunos
+      </li>
+      <li class="prof-nav-item" data-section="courses">
+        <i class="fas fa-book"></i> Meus Cursos
+      </li>
+    </ul>
+    <button class="logout-btn" onclick="logoutProfessor()">
+      <i class="fas fa-sign-out-alt"></i> Sair
+    </button>
+  </aside>
+
+  <!-- Main Content -->
+  <div class="prof-main">
+    <!-- Upload Videos Section -->
+    <div id="upload-section" class="prof-section active">
+      <div class="section-header">
+        <h2><i class="fas fa-video"></i> Fazer Upload de Vídeos</h2>
+      </div>
+
+      <select id="courseSelect" class="course-select" onchange="filterVideosByCourse()">
+        <option value="">Selecione um curso...</option>
+      </select>
+
+      <div class="upload-container" onclick="document.getElementById('videoInput').click()">
+        <i class="fas fa-cloud-upload-alt"></i>
+        <p>Clique ou arraste um vídeo aqui</p>
+        <p style="font-size: 12px; color: #999; margin-top: 10px;">Máximo 500MB - MP4, WebM</p>
+      </div>
+      <input type="file" id="videoInput" accept="video/*" onchange="handleVideoUpload(event)">
+
+      <h3>Meus Vídeos</h3>
+      <div class="video-grid" id="videoGrid"></div>
+    </div>
+
+    <!-- Messages with Admin -->
+    <div id="messages-admin-section" class="prof-section">
+      <div class="section-header">
+        <h2><i class="fas fa-envelope"></i> Mensagens com Admin</h2>
+      </div>
+      <div class="chat-box">
+        <div class="chat-messages" id="adminChatMessages"></div>
+        <div class="chat-input-box">
+          <input type="text" id="adminMessageInput" placeholder="Digite sua mensagem...">
+          <button onclick="sendMessageToAdmin()"><i class="fas fa-paper-plane"></i></button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Messages with Students -->
+    <div id="messages-students-section" class="prof-section">
+      <div class="section-header">
+        <h2><i class="fas fa-users"></i> Mensagens de Alunos</h2>
+      </div>
+      <div class="messages-container">
+        <div class="messages-list" id="studentsList"></div>
+        <div class="chat-box">
+          <div class="chat-messages" id="studentChatMessages"></div>
+          <div class="chat-input-box">
+            <input type="text" id="studentMessageInput" placeholder="Digite sua mensagem...">
+            <button onclick="sendMessageToStudent()"><i class="fas fa-paper-plane"></i></button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Courses Section -->
+    <div id="courses-section" class="prof-section">
+      <div class="section-header">
+        <h2><i class="fas fa-book"></i> Meus Cursos</h2>
+      </div>
+      <div id="coursesList" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 20px;"></div>
+    </div>
+  </div>
+</div>
+
+<!-- Footer -->
+<footer class="footer">
+  <div class="footer-content">
+    <div class="footer-section">
+      <h3><i class="fas fa-graduation-cap"></i> MentorX</h3>
+      <p>Plataforma de ensino para professores</p>
+    </div>
+    <div class="footer-section">
+      <h3>Contato</h3>
+      <p><i class="fas fa-envelope"></i> contact@mentorx.com</p>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <p>&copy; 2026 MentorX. Todos os direitos reservados.</p>
+  </div>
+</footer>
+
+<script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/12.11.0/firebase-app.js";
+  import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/12.11.0/firebase-auth.js";
+  import {
+    getFirestore,
+    collection,
+    getDocs,
+    addDoc,
+    query,
+    where,
+    orderBy,
+    onSnapshot,
+    doc,
+    updateDoc
+  } from "https://www.gstatic.com/firebasejs/12.11.0/firebase-firestore.js";
+  import { getStorage, ref, uploadBytes, getDownloadURL } from "https://www.gstatic.com/firebasejs/12.11.0/firebase-storage.js";
+
+  const firebaseConfig = {
+    apiKey: "AIzaSyBaPlPSIzBjjlMe46_XqkFfjaAJhQAvBac",
+    authDomain: "mentorx-c28fd.firebaseapp.com",
+    projectId: "mentorx-c28fd",
+    storageBucket: "mentorx-c28fd.firebasestorage.app",
+    messagingSenderId: "440701253556",
+    appId: "1:440701253556:web:d718a8c4405a26a6a364e1",
+    measurementId: "G-0HPK2ZS6BG"
+  };
+
+  const app = initializeApp(firebaseConfig);
+  const auth = getAuth(app);
+  const db = getFirestore(app);
+  const storage = getStorage(app);
+
+  let currentProfessor = null;
+  let selectedStudent = null;
+
+  onAuthStateChanged(auth, (user) => {
+    if (user) {
+      currentProfessor = user;
+      loadProfessorData();
+    } else {
+      window.location.href = 'login.html';
+    }
+  });
+
+  window.logoutProfessor = async function() {
+    try {
+      await signOut(auth);
+      window.location.href = 'login.html';
+    } catch (error) {
+      console.error('Erro ao fazer logout:', error);
+    }
+  };
+
+  async function loadProfessorData() {
+    await loadCourses();
+    await loadStudentMessages();
+  }
+
+  async function loadCourses() {
+    try {
+      const q = query(collection(db, 'courses'), where('professorId', '==', currentProfessor.uid));
+      const snapshot = await getDocs(q);
+      
+      const courses = [];
+      const courseSelect = document.getElementById('courseSelect');
+      courseSelect.innerHTML = '<option value="">Selecione um curso...</option>';
+
+      snapshot.forEach(doc => {
+        courses.push({ id: doc.id, ...doc.data() });
+        const option = document.createElement('option');
+        option.value = doc.id;
+        option.textContent = doc.data().title || 'Sem título';
+        courseSelect.appendChild(option);
+      });
+
+      displayCourses(courses);
+    } catch (error) {
+      console.error('Erro ao carregar cursos:', error);
+    }
+  }
+
+  function displayCourses(courses) {
+    const coursesList = document.getElementById('coursesList');
+    coursesList.innerHTML = '';
+
+    courses.forEach(course => {
+      const courseCard = document.createElement('div');
+      courseCard.className = 'video-card';
+      courseCard.innerHTML = `
+        <div class="video-card-thumbnail" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);">
+          <i class="fas fa-book"></i>
+        </div>
+        <div class="video-card-info">
+          <h4>${course.title}</h4>
+          <p>${course.category || 'Sem categoria'}</p>
+          <p style="margin-top: 8px; color: #667eea; font-weight: 600;">${course.videoCount || 0} vídeos</p>
+        </div>
+      `;
+      coursesList.appendChild(courseCard);
+    });
+  }
+
+  window.handleVideoUpload = async function(event) {
+    const file = event.target.files[0];
+    const courseId = document.getElementById('courseSelect').value;
+
+    if (!file) return;
+    if (!courseId) {
+      alert('Selecione um curso primeiro');
+      return;
+    }
+
+    try {
+      const storageRef = ref(storage, `videos/${currentProfessor.uid}/${courseId}/${Date.now()}_${file.name}`);
+      await uploadBytes(storageRef, file);
+      const downloadURL = await getDownloadURL(storageRef);
+
+      await addDoc(collection(db, 'videos'), {
+        professorId: currentProfessor.uid,
+        courseId: courseId,
+        title: file.name.replace(/\.[^/.]+$/, ''),
+        url: downloadURL,
+        size: file.size,
+        uploadedAt: new Date().toISOString()
+      });
+
+      alert('Vídeo enviado com sucesso!');
+      loadCourses();
+      document.getElementById('videoInput').value = '';
+    } catch (error) {
+      console.error('Erro ao fazer upload:', error);
+      alert('Erro ao enviar vídeo');
+    }
+  };
+
+  window.filterVideosByCourse = async function() {
+    const courseId = document.getElementById('courseSelect').value;
+    const videoGrid = document.getElementById('videoGrid');
+    videoGrid.innerHTML = '';
+
+    if (!courseId) return;
+
+    try {
+      const q = query(
+        collection(db, 'videos'),
+        where('professorId', '==', currentProfessor.uid),
+        where('courseId', '==', courseId)
+      );
+      const snapshot = await getDocs(q);
+
+      snapshot.forEach(doc => {
+        const video = doc.data();
+        const videoCard = document.createElement('div');
+        videoCard.className = 'video-card';
+        videoCard.innerHTML = `
+          <div class="video-card-thumbnail">
+            <i class="fas fa-film"></i>
+          </div>
+          <div class="video-card-info">
+            <h4>${video.title}</h4>
+            <p>${new Date(video.uploadedAt).toLocaleDateString('pt-BR')}</p>
+          </div>
+        `;
+        videoGrid.appendChild(videoCard);
+      });
+    } catch (error) {
+      console.error('Erro ao carregar vídeos:', error);
+    }
+  };
+
+  async function loadStudentMessages() {
+    try {
+      const q = query(
+        collection(db, 'messages'),
+        where('recipientId', '==', currentProfessor.uid),
+        orderBy('timestamp', 'desc')
+      );
+
+      onSnapshot(q, (snapshot) => {
+        const studentsList = document.getElementById('studentsList');
+        studentsList.innerHTML = '';
+        const studentsMap = {};
+
+        snapshot.forEach(doc => {
+          const msg = doc.data();
+          if (!studentsMap[msg.senderId]) {
+            studentsMap[msg.senderId] = msg;
+          }
+        });
+
+        Object.values(studentsMap).forEach(msg => {
+          const item = document.createElement('div');
+          item.className = 'message-item';
+          item.onclick = () => selectStudent(msg.senderId, msg.senderName);
+          item.innerHTML = `
+            <div class="message-item-name">${msg.senderName}</div>
+            <div class="message-item-preview">${msg.text}</div>
+          `;
+          studentsList.appendChild(item);
+        });
+      });
+    } catch (error) {
+      console.error('Erro ao carregar mensagens:', error);
+    }
+  }
+
+  window.selectStudent = function(studentId, studentName) {
+    selectedStudent = { id: studentId, name: studentName };
+    loadStudentChat(studentId);
+    
+    const items = document.querySelectorAll('.message-item');
+    items.forEach(item => item.classList.remove('active'));
+    event.target.closest('.message-item').classList.add('active');
+  };
+
+  function loadStudentChat(studentId) {
+    const chatMessages = document.getElementById('studentChatMessages');
+    const q = query(
+      collection(db, 'messages'),
+      where('participantIds', 'array-contains', currentProfessor.uid)
+    );
+
+    onSnapshot(q, (snapshot) => {
+      chatMessages.innerHTML = '';
+      snapshot.forEach(doc => {
+        const msg = doc.data();
+        if ((msg.senderId === studentId && msg.recipientId === currentProfessor.uid) ||
+            (msg.senderId === currentProfessor.uid && msg.recipientId === studentId)) {
+          
+          const isOwn = msg.senderId === currentProfessor.uid;
+          const messageDiv = document.createElement('div');
+          messageDiv.className = `chat-message ${isOwn ? 'own' : ''}`;
+          messageDiv.innerHTML = `
+            <div class="chat-bubble">${msg.text}</div>
+            <div class="chat-time">${new Date(msg.timestamp).toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' })}</div>
+          `;
+          chatMessages.appendChild(messageDiv);
+        }
+      });
+      chatMessages.scrollTop = chatMessages.scrollHeight;
+    });
+  }
+
+  window.sendMessageToStudent = async function() {
+    const input = document.getElementById('studentMessageInput');
+    const text = input.value.trim();
+
+    if (!text || !selectedStudent) return;
+
+    try {
+      await addDoc(collection(db, 'messages'), {
+        senderId: currentProfessor.uid,
+        senderName: 'Professor',
+        recipientId: selectedStudent.id,
+        text: text,
+        timestamp: new Date().toISOString(),
+        participantIds: [currentProfessor.uid, selectedStudent.id]
+      });
+      input.value = '';
+    } catch (error) {
+      console.error('Erro ao enviar mensagem:', error);
+    }
+  };
+
+  window.sendMessageToAdmin = async function() {
+    const input = document.getElementById('adminMessageInput');
+    const text = input.value.trim();
+
+    if (!text) return;
+
+    try {
+      await addDoc(collection(db, 'messages'), {
+        senderId: currentProfessor.uid,
+        senderName: `Professor (${currentProfessor.email})`,
+        recipientId: 'admin',
+        text: text,
+        timestamp: new Date().toISOString()
+      });
+      input.value = '';
+    } catch (error) {
+      console.error('Erro ao enviar mensagem:', error);
+    }
+  };
+
+  // Navigation
+  document.querySelectorAll('.prof-nav-item').forEach(item => {
+    item.addEventListener('click', () => {
+      document.querySelectorAll('.prof-nav-item').forEach(i => i.classList.remove('active'));
+      item.classList.add('active');
+      
+      const section = item.dataset.section;
+      document.querySelectorAll('.prof-section').forEach(s => s.classList.remove('active'));
+      document.getElementById(`${section}-section`).classList.add('active');
+    });
+  });
+
+  // Dark mode toggle
+  const darkModeToggle = document.getElementById('darkModeToggle');
+  const savedDarkMode = localStorage.getItem('darkMode');
+  if (savedDarkMode !== null) {
+    document.body.classList.toggle('dark-mode', savedDarkMode === 'true');
+  }
+  darkModeToggle.addEventListener('click', () => {
+    document.body.classList.toggle('dark-mode');
+    localStorage.setItem('darkMode', document.body.classList.contains('dark-mode'));
+  });
+</script>
+
+<script src="js/script.js"></script>
+</body>
+</html>

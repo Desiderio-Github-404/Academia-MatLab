@@ -298,9 +298,9 @@ function redirectUser(user) {
     if (userData.userType === 'admin') {
         window.location.href = 'mentorx_admin.html';
     } else if (userData.userType === 'professor') {
-        window.location.href = 'mentorx_admin.html';
+        window.location.href = 'professor-dashboard.html';
     } else if (userData.userType === 'aluno') {
-        window.location.href = 'dashboard.html'; // Página do aluno (a ser criada)
+        window.location.href = 'dashboard.html';
     } else {
         // Tipo não definido - redirecionar para completar perfil
         window.location.href = 'profile-setup.html';
