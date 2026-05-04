@@ -1,393 +1,262 @@
-// Script para a página MentorX Admin
+﻿import { initializeApp } from "https://www.gstatic.com/firebasejs/12.11.0/firebase-app.js";
+import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/12.11.0/firebase-auth.js";
+import {
+  getFirestore,
+  collection,
+  getDocs,
+  doc,
+  updateDoc,
+  query,
+  orderBy
+} from "https://www.gstatic.com/firebasejs/12.11.0/firebase-firestore.js";
+
+const firebaseConfig = {
+  apiKey: "AIzaSyC9z9z9z9z9z9z9z9z9z9z9z9z9z9z9z9z9",
+  authDomain: "mentorx-c28fd.firebaseapp.com",
+  projectId: "mentorx-c28fd",
+  storageBucket: "mentorx-c28fd.firebasestorage.app",
+  messagingSenderId: "123456789012",
+  appId: "1:123456789012:web:abcdef123456"
+};
+
+const app = initializeApp(firebaseConfig);
+const auth = getAuth(app);
+const db = getFirestore(app);
+
+const ADMIN_EMAIL = 'adminmentorx2026@gmail.com';
+const ADMIN_UID = 'adminmentorx';
+
+let currentUser = null;
+
 document.addEventListener('DOMContentLoaded', function() {
-    initAdminPanel();
-    initVideoUpload();
-    initVideoManagement();
-    initCategoriesManagement();
-    initAnalytics();
-    loadVideos();
-    loadCategories();
+  initAdminPanel();
+  initFirebase();
 });
 
-// Navegação do painel admin
+function initFirebase() {
+  onAuthStateChanged(auth, (user) => {
+    if (user) {
+      currentUser = user;
+      loadAdminData();
+    } else {
+      const storedAdmin = JSON.parse(localStorage.getItem(`user_${ADMIN_UID}`) || '{}');
+      if (storedAdmin && storedAdmin.userType === 'admin' && storedAdmin.email === ADMIN_EMAIL) {
+        currentUser = { uid: ADMIN_UID, email: ADMIN_EMAIL };
+        loadAdminData();
+      } else {
+        window.location.href = 'login.html';
+      }
+    }
+  });
+}
+
 function initAdminPanel() {
-    const navBtns = document.querySelectorAll('.admin-nav-btn');
-    const sections = document.querySelectorAll('.admin-section');
+  const navBtns = document.querySelectorAll('.admin-nav-btn');
+  const sections = document.querySelectorAll('.admin-section');
 
-    navBtns.forEach(btn => {
-        btn.addEventListener('click', () => {
-            // Remove active class from all buttons and sections
-            navBtns.forEach(b => b.classList.remove('active'));
-            sections.forEach(s => s.classList.remove('active'));
+  navBtns.forEach(btn => {
+    btn.addEventListener('click', () => {
+      navBtns.forEach(b => b.classList.remove('active'));
+      sections.forEach(s => s.classList.remove('active'));
 
-            // Add active class to clicked button and corresponding section
-            btn.classList.add('active');
-            const sectionId = btn.dataset.section + '-section';
-            document.getElementById(sectionId).classList.add('active');
-        });
+      btn.classList.add('active');
+      const sectionId = `${btn.dataset.section}-section`;
+      document.getElementById(sectionId).classList.add('active');
     });
+  });
 }
 
-// Sistema de upload de vídeos
-function initVideoUpload() {
-    const uploadArea = document.getElementById('upload-area');
-    const videoFile = document.getElementById('video-file');
-    const uploadForm = document.getElementById('upload-form');
-    const videoPreview = document.getElementById('video-preview');
-    const metadataForm = document.getElementById('video-metadata-form');
-    const cancelBtn = document.getElementById('cancel-upload');
+async function loadAdminData() {
+  await Promise.all([
+    loadOverviewStats(),
+    loadTeacherApplications(),
+    loadUsers(),
+    loadCourses()
+  ]);
+}
 
-    // Drag and drop
-    uploadArea.addEventListener('dragover', (e) => {
-        e.preventDefault();
-        uploadArea.classList.add('drag-over');
-    });
+async function loadOverviewStats() {
+  try {
+    const [studentsSnap, teachersSnap, coursesSnap, applicationsSnap, usersSnap] = await Promise.all([
+      getDocs(collection(db, 'students')),
+      getDocs(collection(db, 'teachers')),
+      getDocs(collection(db, 'courses')),
+      getDocs(collection(db, 'teacherApplications')),
+      getDocs(collection(db, 'users'))
+    ]);
 
-    uploadArea.addEventListener('dragleave', () => {
-        uploadArea.classList.remove('drag-over');
-    });
+    const studentsCount = studentsSnap.size;
+    const teachersCount = teachersSnap.size;
+    const coursesCount = coursesSnap.size;
+    const applicationsCount = applicationsSnap.size;
+    const usersCount = usersSnap.size;
 
-    uploadArea.addEventListener('drop', (e) => {
-        e.preventDefault();
-        uploadArea.classList.remove('drag-over');
-        const files = e.dataTransfer.files;
-        if (files.length > 0) {
-            handleFileSelect(files[0]);
-        }
-    });
+    updateStat('students-count', studentsCount);
+    updateStat('teachers-count', teachersCount);
+    updateStat('courses-count', coursesCount);
+    updateStat('users-count', usersCount);
 
-    uploadArea.addEventListener('click', () => {
-        videoFile.click();
-    });
+    updateStat('students-count-overview', studentsCount);
+    updateStat('teachers-count-overview', teachersCount);
+    updateStat('courses-count-overview', coursesCount);
+    updateStat('applications-count-overview', applicationsCount);
+  } catch (error) {
+    console.error('Erro ao carregar estatísticas:', error);
+  }
+}
 
-    videoFile.addEventListener('change', (e) => {
-        if (e.target.files.length > 0) {
-            handleFileSelect(e.target.files[0]);
-        }
-    });
+function updateStat(elementId, value) {
+  const element = document.getElementById(elementId);
+  if (element) {
+    element.textContent = value;
+  }
+}
 
-    function handleFileSelect(file) {
-        if (!file.type.startsWith('video/')) {
-            showNotification('Por favor, selecione um arquivo de vídeo válido.', 'error');
-            return;
-        }
+async function loadTeacherApplications() {
+  const tableBody = document.querySelector('#applications-table tbody');
+  if (!tableBody) return;
+  tableBody.innerHTML = '';
 
-        if (file.size > 500 * 1024 * 1024) { // 500MB
-            showNotification('O arquivo é muito grande. Máximo: 500MB.', 'error');
-            return;
-        }
+  try {
+    const applicationsSnap = await getDocs(collection(db, 'teacherApplications'));
 
-        // Preview do vídeo
-        const url = URL.createObjectURL(file);
-        videoPreview.src = url;
-        uploadArea.style.display = 'none';
-        uploadForm.style.display = 'block';
-
-        // Preencher metadados automaticamente se possível
-        document.getElementById('video-title').value = file.name.replace(/\.[^/.]+$/, '');
-        document.getElementById('video-duration').value = Math.round(file.size / (1024 * 1024)); // Aproximação
+    if (applicationsSnap.empty) {
+      tableBody.innerHTML = `<tr><td colspan="5">Nenhuma adesão de professor encontrada.</td></tr>`;
+      return;
     }
 
-    cancelBtn.addEventListener('click', () => {
-        resetUpload();
+    applicationsSnap.forEach(docItem => {
+      const data = docItem.data();
+      const status = data.status || 'pending';
+      const row = document.createElement('tr');
+      row.innerHTML = `
+        <td>${data.name || 'Sem nome'}</td>
+        <td>${data.email || '-'}</td>
+        <td>${data.specialty || data.area || 'Não informado'}</td>
+        <td><span class="status-badge ${status}">${status}</span></td>
+        <td class="admin-actions">
+          <button class="btn btn-primary" onclick="handleApplication('${docItem.id}', 'approved')">Aprovar</button>
+          <button class="btn btn-secondary" onclick="handleApplication('${docItem.id}', 'rejected')">Rejeitar</button>
+        </td>
+      `;
+      tableBody.appendChild(row);
     });
-
-    metadataForm.addEventListener('submit', (e) => {
-        e.preventDefault();
-        saveVideo();
-    });
+  } catch (error) {
+    console.error('Erro ao carregar adesões:', error);
+    tableBody.innerHTML = `<tr><td colspan="5">Erro ao buscar dados.</td></tr>`;
+  }
 }
 
-function resetUpload() {
-    document.getElementById('upload-area').style.display = 'block';
-    document.getElementById('upload-form').style.display = 'none';
-    document.getElementById('video-file').value = '';
-    document.getElementById('video-preview').src = '';
-    document.getElementById('video-metadata-form').reset();
-}
+window.handleApplication = async function(applicationId, status) {
+  try {
+    const applicationRef = doc(db, 'teacherApplications', applicationId);
+    await updateDoc(applicationRef, { status });
+    loadTeacherApplications();
+    loadOverviewStats();
+  } catch (error) {
+    console.error('Erro ao atualizar adesão:', error);
+  }
+};
 
-// Salvar vídeo
-function saveVideo() {
-    const title = document.getElementById('video-title').value;
-    const category = document.getElementById('video-category').value;
-    const description = document.getElementById('video-description').value;
-    const duration = document.getElementById('video-duration').value;
-    const level = document.getElementById('video-level').value;
-    const tags = document.getElementById('video-tags').value;
+async function loadUsers() {
+  const tableBody = document.querySelector('#users-table tbody');
+  if (!tableBody) return;
+  tableBody.innerHTML = '';
 
-    if (!title || !category) {
-        showNotification('Título e categoria são obrigatórios.', 'error');
-        return;
+  try {
+    const usersSnap = await getDocs(collection(db, 'users'));
+    if (usersSnap.empty) {
+      tableBody.innerHTML = `<tr><td colspan="5">Nenhum usuário cadastrado.</td></tr>`;
+      return;
     }
 
-    const videoData = {
-        id: Date.now(),
-        title,
-        category,
-        description,
-        duration: parseInt(duration) || 0,
-        level,
-        tags: tags.split(',').map(tag => tag.trim()).filter(tag => tag),
-        uploadDate: new Date().toISOString(),
-        views: 0,
-        likes: 0,
-        fileName: document.getElementById('video-file').files[0]?.name || 'video.mp4'
-    };
-
-    // Salvar no localStorage (em produção, seria uma API)
-    const videos = getStoredVideos();
-    videos.push(videoData);
-    localStorage.setItem('mentorx_videos', JSON.stringify(videos));
-
-    showNotification('Vídeo salvo com sucesso!', 'success');
-    resetUpload();
-    loadVideos();
-}
-
-// Gerenciamento de vídeos
-function initVideoManagement() {
-    const searchInput = document.getElementById('video-search');
-    const searchBtn = document.getElementById('video-search-btn');
-    const categoryFilter = document.getElementById('video-category-filter');
-    const addVideoBtn = document.getElementById('add-video-btn');
-
-    searchBtn.addEventListener('click', filterVideos);
-    searchInput.addEventListener('input', filterVideos);
-    categoryFilter.addEventListener('change', filterVideos);
-
-    addVideoBtn.addEventListener('click', () => {
-        document.querySelector('[data-section="upload"]').click();
+    usersSnap.forEach(docItem => {
+      const data = docItem.data();
+      const status = data.status || 'active';
+      const role = data.role || 'aluno';
+      const row = document.createElement('tr');
+      row.innerHTML = `
+        <td>${data.name || 'Usuário'}</td>
+        <td>${data.email || '-'}</td>
+        <td>${role}</td>
+        <td><span class="status-badge ${status}">${status}</span></td>
+        <td class="admin-actions">
+          <button class="btn btn-primary" onclick="toggleUserStatus('${docItem.id}', '${status}')">${status === 'active' ? 'Bloquear' : 'Ativar'}</button>
+          <button class="btn btn-secondary" onclick="promoteUser('${docItem.id}', '${role}')">${role === 'professor' ? 'Rebaixar' : 'Promover'}</button>
+        </td>
+      `;
+      tableBody.appendChild(row);
     });
+  } catch (error) {
+    console.error('Erro ao carregar usuários:', error);
+    tableBody.innerHTML = `<tr><td colspan="5">Erro ao buscar dados.</td></tr>`;
+  }
 }
 
-function loadVideos() {
-    const videos = getStoredVideos();
-    const videosGrid = document.getElementById('videos-grid');
+window.toggleUserStatus = async function(userId, currentStatus) {
+  try {
+    const userRef = doc(db, 'users', userId);
+    const nextStatus = currentStatus === 'active' ? 'blocked' : 'active';
+    await updateDoc(userRef, { status: nextStatus });
+    loadUsers();
+  } catch (error) {
+    console.error('Erro ao alterar status do usuário:', error);
+  }
+};
 
-    videosGrid.innerHTML = '';
+window.promoteUser = async function(userId, role) {
+  try {
+    const userRef = doc(db, 'users', userId);
+    const nextRole = role === 'professor' ? 'aluno' : 'professor';
+    await updateDoc(userRef, { role: nextRole });
+    loadUsers();
+    loadOverviewStats();
+  } catch (error) {
+    console.error('Erro ao alterar função do usuário:', error);
+  }
+};
 
-    if (videos.length === 0) {
-        videosGrid.innerHTML = `
-            <div class="empty-state">
-                <i class="fas fa-video"></i>
-                <h3>Nenhum vídeo encontrado</h3>
-                <p>Comece fazendo upload do seu primeiro vídeo!</p>
-            </div>
-        `;
-        return;
+async function loadCourses() {
+  const tableBody = document.querySelector('#courses-table tbody');
+  if (!tableBody) return;
+  tableBody.innerHTML = '';
+
+  try {
+    const coursesSnap = await getDocs(query(collection(db, 'courses'), orderBy('title', 'asc')));
+    if (coursesSnap.empty) {
+      tableBody.innerHTML = `<tr><td colspan="4">Nenhum curso encontrado.</td></tr>`;
+      return;
     }
 
-    videos.forEach(video => {
-        const videoCard = createVideoCard(video);
-        videosGrid.appendChild(videoCard);
+    coursesSnap.forEach(docItem => {
+      const data = docItem.data();
+      const status = data.status || 'ativo';
+      const row = document.createElement('tr');
+      row.innerHTML = `
+        <td>${data.title || 'Sem título'}</td>
+        <td>${data.category || 'Sem categoria'}</td>
+        <td>${data.teacherName || 'Não informado'}</td>
+        <td><span class="status-badge ${status === 'ativo' ? 'active' : 'blocked'}">${status}</span></td>
+      `;
+      tableBody.appendChild(row);
     });
-
-    updateAnalytics(videos);
+  } catch (error) {
+    console.error('Erro ao carregar cursos:', error);
+    tableBody.innerHTML = `<tr><td colspan="4">Erro ao buscar dados.</td></tr>`;
+  }
 }
 
-function createVideoCard(video) {
-    const card = document.createElement('div');
-    card.className = 'video-card';
-    card.innerHTML = `
-        <div class="video-thumbnail">
-            <i class="fas fa-play-circle"></i>
-            <span class="video-duration">${video.duration}min</span>
-        </div>
-        <div class="video-info">
-            <h4>${video.title}</h4>
-            <p class="video-category">${getCategoryName(video.category)}</p>
-            <div class="video-stats">
-                <span><i class="fas fa-eye"></i> ${video.views}</span>
-                <span><i class="fas fa-heart"></i> ${video.likes}</span>
-            </div>
-        </div>
-        <div class="video-actions">
-            <button class="btn-icon" onclick="editVideo(${video.id})" title="Editar">
-                <i class="fas fa-edit"></i>
-            </button>
-            <button class="btn-icon" onclick="deleteVideo(${video.id})" title="Excluir">
-                <i class="fas fa-trash"></i>
-            </button>
-            <button class="btn-icon" onclick="previewVideo(${video.id})" title="Visualizar">
-                <i class="fas fa-eye"></i>
-            </button>
-        </div>
-    `;
-
-    return card;
-}
-
-function filterVideos() {
-    const searchTerm = document.getElementById('video-search').value.toLowerCase();
-    const categoryFilter = document.getElementById('video-category-filter').value;
-    const videos = getStoredVideos();
-    const videoCards = document.querySelectorAll('.video-card');
-
-    videos.forEach((video, index) => {
-        const matchesSearch = video.title.toLowerCase().includes(searchTerm) ||
-                            video.description.toLowerCase().includes(searchTerm) ||
-                            video.tags.some(tag => tag.toLowerCase().includes(searchTerm));
-
-        const matchesCategory = categoryFilter === 'all' || video.category === categoryFilter;
-
-        const card = videoCards[index];
-        if (card) {
-            card.style.display = (matchesSearch && matchesCategory) ? 'block' : 'none';
-        }
-    });
-}
-
-// Editar vídeo
-function editVideo(videoId) {
-    const videos = getStoredVideos();
-    const video = videos.find(v => v.id === videoId);
-
-    if (!video) return;
-
-    document.getElementById('edit-title').value = video.title;
-    document.getElementById('edit-category').value = video.category;
-    document.getElementById('edit-description').value = video.description;
-
-    document.getElementById('edit-modal').style.display = 'block';
-
-    const editForm = document.getElementById('edit-video-form');
-    editForm.onsubmit = (e) => {
-        e.preventDefault();
-        saveVideoEdit(videoId);
-    };
-}
-
-function saveVideoEdit(videoId) {
-    const videos = getStoredVideos();
-    const videoIndex = videos.findIndex(v => v.id === videoId);
-
-    if (videoIndex === -1) return;
-
-    videos[videoIndex].title = document.getElementById('edit-title').value;
-    videos[videoIndex].category = document.getElementById('edit-category').value;
-    videos[videoIndex].description = document.getElementById('edit-description').value;
-
-    localStorage.setItem('mentorx_videos', JSON.stringify(videos));
-    showNotification('Vídeo atualizado com sucesso!', 'success');
-    closeEditModal();
-    loadVideos();
-}
-
-function closeEditModal() {
-    document.getElementById('edit-modal').style.display = 'none';
-}
-
-// Excluir vídeo
-function deleteVideo(videoId) {
-    if (!confirm('Tem certeza que deseja excluir este vídeo?')) return;
-
-    const videos = getStoredVideos();
-    const filteredVideos = videos.filter(v => v.id !== videoId);
-
-    localStorage.setItem('mentorx_videos', JSON.stringify(filteredVideos));
-    showNotification('Vídeo excluído com sucesso!', 'success');
-    loadVideos();
-}
-
-// Preview vídeo
-function previewVideo(videoId) {
-    const videos = getStoredVideos();
-    const video = videos.find(v => v.id === videoId);
-
-    if (!video) return;
-
-    // Simulação de preview - em produção, seria o vídeo real
-    showNotification(`Preview: ${video.title}`, 'info');
-}
-
-// Gerenciamento de categorias
-function initCategoriesManagement() {
-    const addCategoryBtn = document.getElementById('add-category-btn');
-
-    addCategoryBtn.addEventListener('click', () => {
-        const categoryName = prompt('Nome da nova categoria:');
-        if (categoryName && categoryName.trim()) {
-            addCategory(categoryName.trim());
-        }
-    });
-}
-
-function loadCategories() {
-    const categories = getStoredCategories();
-    const categoriesGrid = document.getElementById('categories-grid');
-
-    categoriesGrid.innerHTML = '';
-
-    categories.forEach(category => {
-        const categoryCard = document.createElement('div');
-        categoryCard.className = 'category-card';
-        categoryCard.innerHTML = `
-            <h4>${category.name}</h4>
-            <p>${category.videoCount || 0} vídeos</p>
-            <div class="category-actions">
-                <button class="btn-icon" onclick="editCategory('${category.id}')" title="Editar">
-                    <i class="fas fa-edit"></i>
-                </button>
-                <button class="btn-icon" onclick="deleteCategory('${category.id}')" title="Excluir">
-                    <i class="fas fa-trash"></i>
-                </button>
-            </div>
-        `;
-        categoriesGrid.appendChild(categoryCard);
-    });
-}
-
-function addCategory(name) {
-    const categories = getStoredCategories();
-    const newCategory = {
-        id: name.toLowerCase().replace(/\s+/g, '-'),
-        name: name,
-        videoCount: 0
-    };
-
-    categories.push(newCategory);
-    localStorage.setItem('mentorx_categories', JSON.stringify(categories));
-    loadCategories();
-    showNotification('Categoria adicionada!', 'success');
-}
-
-// Analytics
-function initAnalytics() {
-    // Inicializar gráficos se necessário
-}
-
-function updateAnalytics(videos) {
-    document.getElementById('total-videos').textContent = videos.length;
-    document.getElementById('total-views').textContent = videos.reduce((sum, v) => sum + v.views, 0);
-    document.getElementById('engagement-rate').textContent = '85%'; // Simulado
-}
-
-// Utilitários
-function getStoredVideos() {
-    return JSON.parse(localStorage.getItem('mentorx_videos') || '[]');
-}
-
-function getStoredCategories() {
-    const defaultCategories = [
-        { id: 'matematica', name: 'Matemática', videoCount: 0 },
-        { id: 'fisica', name: 'Física', videoCount: 0 },
-        { id: 'quimica', name: 'Química', videoCount: 0 },
-        { id: 'programacao', name: 'Programação', videoCount: 0 }
-    ];
-
-    return JSON.parse(localStorage.getItem('mentorx_categories') || JSON.stringify(defaultCategories));
-}
-
-function getCategoryName(categoryId) {
-    const categories = getStoredCategories();
-    const category = categories.find(c => c.id === categoryId);
-    return category ? category.name : categoryId;
-}
-
-// Fechar modal ao clicar fora
-document.addEventListener('click', (e) => {
-    const modal = document.getElementById('edit-modal');
-    if (e.target === modal) {
-        closeEditModal();
+window.logout = async function() {
+  try {
+    if (!auth.currentUser && currentUser && currentUser.uid === ADMIN_UID) {
+      localStorage.removeItem(`user_${ADMIN_UID}`);
+      window.location.href = 'login.html';
+      return;
     }
-});
+
+    await signOut(auth);
+    window.location.href = 'login.html';
+  } catch (error) {
+    console.error('Erro no logout:', error);
+  }
+};

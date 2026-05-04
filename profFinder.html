@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MentorX - Procurar Professores</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body class="dark-mode">
+
+<canvas id="stars"></canvas>
+
+<!-- Botão de alternância de tema -->
+<button id="darkModeToggle">🌙</button>
+
+<!-- Header com navegação -->
+<header class="header">
+  <nav class="navbar">
+    <div class="logo">
+      <a href="index.html"><img src="img/logo.png" alt="MentorX Logo" style="height: 100px; margin-right: 10px;"></a>
+    </div>
+    <div class="auth-buttons">
+      <a href="profile-setup.html" class="btn btn-login">Criar Conta</a>
+      <a href="profFinder.html" class="btn btn-login">Procurar Professor</a>
+      <a href="login.html" class="btn btn-login">Login</a>
+    </div>
+    <div class="hamburger">
+      <span></span>
+      <span></span>
+      <span></span>
+    </div>
+  </nav>
+</header>
+
+<main>
+  <!-- Hero Section -->
+  <section id="home" class="hero">
+    <div class="hero-content">
+      <h1>Encontre o Professor Ideal</h1>
+      <p>Conecte-se com tutores experientes para aulas particulares ao domicílio ou online, personalizadas para suas necessidades em ciência e tecnologia.</p>
+      <div class="hero-buttons">
+        <a href="#search" class="btn btn-primary">Começar Pesquisa</a>
+        <a href="#featured" class="btn btn-secondary">Ver Professores em Destaque</a>
+      </div>
+    </div>
+    <img src="img/procurar.jpeg" alt="Hero Image" class="hero-image" style="width: 110%;">
+  </section>
+
+  <!-- Pesquisa de Professores -->
+  <section id="search" class="section">
+    <h2 class="section-title">Pesquisar Professores</h2>
+    <div class="section-left">
+      <p class="section-description">Use os filtros abaixo para encontrar o professor perfeito. Selecione a disciplina, modalidade e localização para aulas exclusivas e de alta qualidade.</p>
+      <form class="search-form">
+        <div class="form-group">
+          <label for="subject">Disciplina:</label>
+          <select id="subject" name="subject">
+            <option value="">Selecione uma disciplina</option>
+            <option value="matematica">Matemática</option>
+            <option value="fisica">Física</option>
+            <option value="eletronica">Eletrónica</option>
+            <option value="programacao">Programação</option>
+            <option value="quimica">Química</option>
+            <option value="telecomunicacoes">Telecomunicações</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label for="modality">Modalidade:</label>
+          <select id="modality" name="modality">
+            <option value="">Selecione a modalidade</option>
+            <option value="domicilio">Ao Domicílio</option>
+            <option value="online">Online</option>
+            <option value="grupo">Em Grupo</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label for="location">Localização:</label>
+          <input type="text" id="location" name="location" placeholder="Digite a cidade ou bairro">
+          <button type="button" id="captureLocation" class="btn btn-secondary">Capturar Localização Atual</button>
+        </div>
+        <button type="submit" class="btn btn-primary">Pesquisar</button>
+      </form>
+    </div>
+  </section>
+
+  <!-- Professores em Destaque -->
+  <section id="featured" class="section">
+    <h2 class="section-title">Professores em Destaque</h2>
+    <div class="section-left">
+      <p class="section-description">Conheça alguns dos nossos tutores mais avaliados. Cada um oferece aulas personalizadas para ajudar você a alcançar seus objetivos acadêmicos.</p>
+      <div class="content-grid featured-scroll">
+        <div class="content-card">
+          <img src="img/professor1.jpg" alt="Professor João Silva">
+          <h3>João Silva</h3>
+          <p>Especialista em Matemática e Física. 10 anos de experiência. Aulas online e presenciais.</p>
+          <div class="rating">⭐⭐⭐⭐⭐ (4.9)</div>
+          <a href="profChat.html?prof=joao-silva" class="btn btn-secondary">Contactar</a>
+        </div>
+        <div class="content-card">
+          <img src="img/professor2.jpg" alt="Professora Maria Santos">
+          <h3>Maria Santos</h3>
+          <p>Engenheira Eletrónica com foco em projetos práticos. Aulas ao domicílio preferencialmente.</p>
+          <div class="rating">⭐⭐⭐⭐⭐ (4.8)</div>
+          <a href="profChat.html?prof=maria-santos" class="btn btn-secondary">Contactar</a>
+        </div>
+        <div class="content-card">
+          <img src="img/professor3.jpg" alt="Professor Carlos Oliveira">
+          <h3>Carlos Oliveira</h3>
+          <p>Programador sênior ensinando linguagens modernas. Flexível para horários online.</p>
+          <div class="rating">⭐⭐⭐⭐⭐ (4.7)</div>
+          <a href="profChat.html?prof=carlos-oliveira" class="btn btn-secondary">Contactar</a>
+        </div>
+        <div class="content-card">
+          <img src="img/professor4.jpg" alt="Professora Ana Costa">
+          <h3>Ana Costa</h3>
+          <p>Pedagoga e mentora em Química, com método claro e atenção individualizada.</p>
+          <div class="rating">⭐⭐⭐⭐⭐ (4.8)</div>
+          <a href="profChat.html?prof=ana-costa" class="btn btn-secondary">Contactar</a>
+        </div>
+        <div class="content-card">
+          <img src="img/professor5.jpg" alt="Professor Bruno Ferreira">
+          <h3>Bruno Ferreira</h3>
+          <p>Especialista em Telecomunicações e redes, ideal para aulas práticas e teóricas.</p>
+          <div class="rating">⭐⭐⭐⭐⭐ (4.7)</div>
+          <a href="profChat.html?prof=bruno-ferreira" class="btn btn-secondary">Contactar</a>
+        </div>
+        <div class="content-card">
+          <img src="img/professor6.jpg" alt="Professora Luísa Mendes">
+          <h3>Luísa Mendes</h3>
+          <p>Mentora de Programação e lógica, com foco em resultados rápidos e acompanhamento.</p>
+          <div class="rating">⭐⭐⭐⭐⭐ (4.9)</div>
+          <a href="profChat.html?prof=luisa-mendes" class="btn btn-secondary">Contactar</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Como Funciona -->
+  <section id="how-it-works" class="section">
+    <h2 class="section-title">Como Funciona</h2>
+    <div class="section-left">
+      <p class="section-description">Encontrar um professor particular nunca foi tão fácil. Siga estes passos simples para começar suas aulas personalizadas.</p>
+      <div class="steps">
+        <div class="step">
+          <i class="fas fa-search"></i>
+          <h3>1. Pesquise</h3>
+          <p>Use nossos filtros para encontrar professores na sua área e disciplina desejada.</p>
+        </div>
+        <div class="step">
+          <i class="fas fa-user-check"></i>
+          <h3>2. Escolha</h3>
+          <p>Analise perfis, avaliações e disponibilidade para selecionar o tutor ideal.</p>
+        </div>
+        <div class="step">
+          <i class="fas fa-calendar-alt"></i>
+          <h3>3. Agende</h3>
+          <p>Entre em contato diretamente e agende suas aulas no horário que preferir.</p>
+        </div>
+        <div class="step">
+          <i class="fas fa-graduation-cap"></i>
+          <h3>4. Aprenda</h3>
+          <p>Desfrute de aulas exclusivas e personalizadas para acelerar seu aprendizado.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<!-- Footer -->
+<footer id="contact" class="footer">
+  <div class="footer-content">
+    <div class="footer-section">
+      <h3><i class="fas fa-graduation-cap"></i> MentorX</h3>
+      <p>Plataforma completa de ensino tecnológico</p>
+    </div>
+    <div class="footer-section">
+      <h3>Contato</h3>
+      <p><i class="fas fa-envelope"></i> contact@mentorx.com</p>
+      <p><i class="fab fa-whatsapp"></i> <a href="https://wa.me/244958794357">(+244) 958794357</a></p>
+      <p><i class="fab fa-whatsapp"></i> <a href="https://wa.me/244922039717">(+244) 922039717</a></p>
+    </div>
+    <div class="footer-section">
+      <h3>Redes Sociais</h3>
+      <div class="social-links">
+        <a href="https://www.instagram.com/mentorx_365"><i class="fab fa-instagram"></i></a>
+        <a href="https://www.facebook.com/MentorX"><i class="fab fa-facebook"></i></a>
+        <a href="#"><i class="fab fa-youtube"></i></a>
+        <a href="#"><i class="fab fa-twitter"></i></a>
+      </div>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <p>&copy; 2026 MentorX. Todos os direitos reservados.</p>
+  </div>
+</footer>
+
+<script src="js/script.js"></script>
+<script>
+  const captureLocationButton = document.getElementById('captureLocation');
+  const locationInput = document.getElementById('location');
+
+  if (captureLocationButton && locationInput) {
+    captureLocationButton.addEventListener('click', () => {
+      if (!navigator.geolocation) {
+        alert('Geolocalização não suportada neste navegador.');
+        return;
+      }
+
+      captureLocationButton.disabled = true;
+      captureLocationButton.textContent = 'Capturando...';
+
+      navigator.geolocation.getCurrentPosition(
+        (position) => {
+          const { latitude, longitude } = position.coords;
+          locationInput.value = `${latitude.toFixed(5)}, ${longitude.toFixed(5)}`;
+          captureLocationButton.textContent = 'Localização Capturada';
+          captureLocationButton.disabled = false;
+        },
+        (error) => {
+          alert('Não foi possível capturar a localização atual. Verifique as permissões do navegador.');
+          captureLocationButton.textContent = 'Capturar Localização Atual';
+          captureLocationButton.disabled = false;
+        },
+        {
+          enableHighAccuracy: true,
+          timeout: 10000,
+          maximumAge: 60000,
+        }
+      );
+    });
+  }
+</script>
+</body>
+</html>

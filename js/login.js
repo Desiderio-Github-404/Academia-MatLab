@@ -1,4 +1,8 @@
 // Script para a página de Login/Registro com Firebase
+const ADMIN_EMAIL = 'adminmentorx2026@gmail.com';
+const ADMIN_PASSWORD = 'mentorx365@2026';
+const ADMIN_UID = 'adminmentorx';
+
 document.addEventListener('DOMContentLoaded', function() {
     // Verificar se Firebase está carregado
     if (typeof window.firebaseAuth === 'undefined') {
@@ -108,6 +112,25 @@ async function handleLogin(e) {
 
     const email = document.getElementById('login-email').value;
     const password = document.getElementById('login-password').value;
+
+    if (email === ADMIN_EMAIL && password === ADMIN_PASSWORD) {
+        const adminData = {
+            uid: ADMIN_UID,
+            name: 'Admin MentorX',
+            email: ADMIN_EMAIL,
+            userType: 'admin',
+            role: 'admin',
+            createdAt: new Date().toISOString(),
+            provider: 'local'
+        };
+        localStorage.setItem(`user_${ADMIN_UID}`, JSON.stringify(adminData));
+
+        showSuccess('Login de admin bem-sucedido! Redirecionando...');
+        setTimeout(() => {
+            window.location.href = 'mentorx_admin.html';
+        }, 1200);
+        return;
+    }
 
     try {
         showLoading('Fazendo login...');
@@ -267,7 +290,9 @@ function redirectUser(user) {
     // Buscar dados do usuário
     const userData = JSON.parse(localStorage.getItem(`user_${user.uid}`) || '{}');
 
-    if (userData.userType === 'professor') {
+    if (userData.userType === 'admin') {
+        window.location.href = 'mentorx_admin.html';
+    } else if (userData.userType === 'professor') {
         window.location.href = 'mentorx_admin.html';
     } else if (userData.userType === 'aluno') {
         window.location.href = 'dashboard.html'; // Página do aluno (a ser criada)

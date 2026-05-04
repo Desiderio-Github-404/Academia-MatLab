@@ -9,6 +9,7 @@ document.addEventListener('DOMContentLoaded', function() {
     initMobileMenu();
     initSmoothScroll();
     initScrollReveal();
+    initFeaturedAutoScroll();
 });
 
 // Alternar Dark/Light Mode
@@ -144,6 +145,27 @@ function initScrollReveal() {
     elements.forEach(element => {
         observer.observe(element);
     });
+}
+
+function initFeaturedAutoScroll() {
+    const featuredScroll = document.querySelector('.featured-scroll');
+    if (!featuredScroll) return;
+
+    let scrollAmount = 0;
+    const step = featuredScroll.clientWidth;
+    const maxScroll = featuredScroll.scrollWidth - featuredScroll.clientWidth;
+
+    function scrollNext() {
+        if (scrollAmount >= maxScroll) {
+            featuredScroll.scrollTo({ left: 0, behavior: 'smooth' });
+            scrollAmount = 0;
+            return;
+        }
+        scrollAmount = Math.min(scrollAmount + step, maxScroll);
+        featuredScroll.scrollTo({ left: scrollAmount, behavior: 'smooth' });
+    }
+
+    setInterval(scrollNext, 4500);
 }
 
 /**

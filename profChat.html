@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MentorX Chat</title>
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body class="dark-mode">
+
+<canvas id="stars"></canvas>
+
+<button id="darkModeToggle">🌙</button>
+
+<header class="header">
+  <nav class="navbar">
+    <div class="logo">
+      <a href="index.html"><img src="img/logo.png" alt="MentorX Logo" style="height: 100px; margin-right: 10px;"></a>
+    </div>
+    <div class="auth-buttons">
+      <a href="profile-setup.html" class="btn btn-login">Criar Conta</a>
+      <a href="profFinder.html" class="btn btn-login">Procurar Professor</a>
+      <a href="login.html" class="btn btn-login">Login</a>
+    </div>
+    <div class="hamburger">
+      <span></span>
+      <span></span>
+      <span></span>
+    </div>
+  </nav>
+</header>
+
+<main>
+  <section class="section">
+    <h2 class="section-title" style="margin-bottom: 10px;">Chat com o Professor</h2>
+    <div class="section-left">
+      <div class="chat-container">
+        <div class="chat-panel">
+          <div class="chat-header">
+            <div class="chat-user">
+              <div class="chat-avatar" id="profAvatar">P</div>
+              <div class="chat-user-info">
+                <h2 id="profName">Professor</h2>
+                <p id="profStatus">Disponível agora</p>
+              </div>
+            </div>
+            <div class="chat-actions">
+              <button type="button" id="voiceBtn" class="icon-btn" title="Chamada de voz"><i class="fas fa-microphone"></i></button>
+              <button type="button" id="videoBtn" class="icon-btn" title="Videochamada"><i class="fas fa-video"></i></button>
+              <button type="button" id="settingsBtn" class="icon-btn" title="Ajuda"><i class="fas fa-question"></i></button>
+            </div>
+          </div>
+
+          <div class="chat-messages" id="chatMessages">
+            <div class="message incoming">
+              <div class="message-bubble">
+                Olá! Sou seu professor e estou pronto para ajudar você com suas aulas.
+              </div>
+            </div>
+            <div class="message outgoing">
+              <div class="message-bubble">
+                Oi! Quero agendar uma aula e tirar dúvidas sobre o conteúdo.
+              </div>
+            </div>
+            <div class="message incoming">
+              <div class="message-bubble">
+                Claro! Podemos começar com um encontro online ou presencial na sua região.
+              </div>
+            </div>
+          </div>
+
+          <div class="chat-input">
+            <button type="button" id="emojiBtn" class="icon-btn" title="Emoji">😊</button>
+            <input id="chatInput" type="text" placeholder="Digite sua mensagem..." autocomplete="off">
+            <button type="button" id="attachBtn" class="icon-btn" title="Anexar arquivo"><i class="fas fa-paperclip"></i></button>
+            <button type="button" id="sendBtn" class="btn btn-primary">Enviar</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer id="contact" class="footer">
+  <div class="footer-content">
+    <div class="footer-section">
+      <h3><i class="fas fa-graduation-cap"></i> MentorX</h3>
+      <p>Plataforma completa de ensino tecnológico</p>
+    </div>
+    <div class="footer-section">
+      <h3>Contato</h3>
+      <p><i class="fas fa-envelope"></i> contact@mentorx.com</p>
+      <p><i class="fab fa-whatsapp"></i> <a href="https://wa.me/244958794357">(+244) 958794357</a></p>
+      <p><i class="fab fa-whatsapp"></i> <a href="https://wa.me/244922039717">(+244) 922039717</a></p>
+    </div>
+    <div class="footer-section">
+      <h3>Redes Sociais</h3>
+      <div class="social-links">
+        <a href="https://www.instagram.com/mentorx_365"><i class="fab fa-instagram"></i></a>
+        <a href="https://www.facebook.com/MentorX"><i class="fab fa-facebook"></i></a>
+        <a href="#"><i class="fab fa-youtube"></i></a>
+        <a href="#"><i class="fab fa-twitter"></i></a>
+      </div>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <p>&copy; 2026 MentorX. Todos os direitos reservados.</p>
+  </div>
+</footer>
+
+<script src="js/script.js"></script>
+<script>
+  const professorMap = {
+    'joao-silva': 'João Silva',
+    'maria-santos': 'Maria Santos',
+    'carlos-oliveira': 'Carlos Oliveira',
+    'ana-costa': 'Ana Costa',
+    'bruno-ferreira': 'Bruno Ferreira',
+    'luisa-mendes': 'Luísa Mendes'
+  };
+
+  function getProfessorFromQuery() {
+    const params = new URLSearchParams(window.location.search);
+    return params.get('prof') || 'joao-silva';
+  }
+
+  function formatInitials(name) {
+    return name.split(' ').map(part => part[0].toUpperCase()).join('');
+  }
+
+  function addMessage(content, type = 'incoming') {
+    const chatMessages = document.getElementById('chatMessages');
+    const message = document.createElement('div');
+    message.className = `message ${type}`;
+
+    const bubble = document.createElement('div');
+    bubble.className = 'message-bubble';
+    bubble.textContent = content;
+
+    message.appendChild(bubble);
+    chatMessages.appendChild(message);
+    chatMessages.scrollTop = chatMessages.scrollHeight;
+  }
+
+  function notifyChat(message) {
+    if (typeof showNotification === 'function') {
+      showNotification(message, 'info');
+    } else {
+      alert(message);
+    }
+  }
+
+  document.addEventListener('DOMContentLoaded', () => {
+    const profKey = getProfessorFromQuery();
+    const profName = professorMap[profKey] || 'Professor Mentor';
+    const profAvatar = document.getElementById('profAvatar');
+    const profNameEl = document.getElementById('profName');
+
+    profNameEl.textContent = profName;
+    profAvatar.textContent = formatInitials(profName);
+
+    const sendBtn = document.getElementById('sendBtn');
+    const chatInput = document.getElementById('chatInput');
+    const voiceBtn = document.getElementById('voiceBtn');
+    const videoBtn = document.getElementById('videoBtn');
+    const attachBtn = document.getElementById('attachBtn');
+    const emojiBtn = document.getElementById('emojiBtn');
+    const settingsBtn = document.getElementById('settingsBtn');
+
+    sendBtn.addEventListener('click', () => {
+      const text = chatInput.value.trim();
+      if (!text) return;
+      addMessage(text, 'outgoing');
+      chatInput.value = '';
+      setTimeout(() => {
+        addMessage('Recebi sua mensagem. Vamos agendar a próxima revisão.', 'incoming');
+      }, 1200);
+    });
+
+    chatInput.addEventListener('keydown', (event) => {
+      if (event.key === 'Enter') {
+        event.preventDefault();
+        sendBtn.click();
+      }
+    });
+
+    voiceBtn.addEventListener('click', () => {
+      notifyChat('Iniciando gravação de mensagem de voz...');
+      setTimeout(() => addMessage('📣 Mensagem de voz enviada.', 'outgoing'), 600);
+    });
+
+    videoBtn.addEventListener('click', () => {
+      notifyChat('Videochamada iniciada. Verifique sua câmera e microfone.');
+    });
+
+    attachBtn.addEventListener('click', () => {
+      notifyChat('Funcionalidade de anexar arquivo acionada. Você pode enviar slides, exercícios ou material de estudo.');
+    });
+
+    emojiBtn.addEventListener('click', () => {
+      addMessage('😊', 'outgoing');
+    });
+
+    settingsBtn.addEventListener('click', () => {
+      notifyChat('Abra as configurações do chat para personalizar notificações ou temas.');
+    });
+  });
+</script>
+</body>
+</html>
