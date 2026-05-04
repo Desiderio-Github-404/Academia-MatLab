@@ -15,7 +15,7 @@ document.addEventListener('DOMContentLoaded', function() {
     initFormValidation();
     initUserTypeSelection();
     initGoogleAuth();
-    initAuthStateListener();
+    // Removido: initAuthStateListener() - causa redirecionamentos automáticos que conflitam com o fluxo de registro
 });
 
 // Toggle entre Login e Registro
@@ -215,11 +215,15 @@ async function handleRegister(e) {
         };
 
         localStorage.setItem(`user_${user.uid}`, JSON.stringify(userData));
+        localStorage.setItem('currentUserId', user.uid);
 
         console.log('Registro bem-sucedido:', user);
         showSuccess('Conta criada com sucesso! Redirecionando...');
 
-        setTimeout(() => redirectUser(user), 1500);
+        setTimeout(() => {
+            // Novo usuário registrado com email - vai para completar perfil
+            window.location.href = 'profile-setup.html';
+        }, 1500);
 
     } catch (error) {
         console.error('Erro no registro:', error);
@@ -259,6 +263,7 @@ async function handleGoogleAuth(mode) {
             };
 
             localStorage.setItem(`user_${user.uid}`, JSON.stringify(userData));
+            localStorage.setItem('currentUserId', user.uid);
 
             if (mode === 'register') {
                 // Se veio do registro, pedir para completar perfil

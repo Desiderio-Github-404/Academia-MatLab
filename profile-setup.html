@@ -203,6 +203,17 @@
             currentUser = user;
             loadExistingData(user);
         } else {
+            // Verificar se há usuário no localStorage (novo registro)
+            const stored = localStorage.getItem(`user_${localStorage.getItem('currentUserId') || ''}`);
+            if (stored) {
+                const storedUser = JSON.parse(stored);
+                if (storedUser.uid) {
+                    currentUser = { uid: storedUser.uid, email: storedUser.email, displayName: storedUser.name };
+                    loadExistingData(currentUser);
+                    return;
+                }
+            }
+            // Se não há usuário em Firebase nem no localStorage, volta ao login
             window.location.href = 'login.html';
         }
     });
@@ -306,12 +317,11 @@
                 subject: formData.subject || null,
                 grade: formData.grade || null,
                 createdAt: new Date().toISOString(),
-                provider: 'google',
-                photoURL: currentUser.photoURL,
                 profileCompleted: true
             };
 
             localStorage.setItem(`user_${currentUser.uid}`, JSON.stringify(userData));
+            localStorage.setItem('currentUserId', currentUser.uid);
 
             showMessage('Perfil atualizado com sucesso! Redirecionando...', 'success');
 
