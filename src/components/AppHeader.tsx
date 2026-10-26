@@ -2,6 +2,7 @@ import { Link, useNavigate } from "@tanstack/react-router";
 import { useQueryClient } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import { Button } from "@/components/ui/button";
+import { ThemeToggle } from "@/components/ThemeToggle";
 
 export function AppHeader({
   name,
@@ -25,7 +26,7 @@ export function AppHeader({
       <div className="mx-auto flex max-w-5xl items-center justify-between gap-3 px-4 py-3">
         <Link
           to="/dashboard"
-          className="font-display text-lg font-bold tracking-tight text-primary neon-text"
+          className="rounded-md bg-neutral-950 px-2 py-1 font-display text-lg font-bold tracking-tight text-white"
         >
           MentorX
         </Link>
@@ -43,6 +44,7 @@ export function AppHeader({
           <Button asChild variant="ghost" size="sm">
             <Link to="/conta">Conta</Link>
           </Button>
+          <ThemeToggle />
           <Button variant="outline" size="sm" onClick={handleSignOut}>
             Sair
           </Button>
